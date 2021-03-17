@@ -1,0 +1,24 @@
+{
+  "menu": [
+    {
+      "title": "한 마디",
+      "route": "/"
+    },
+    {
+      "title": "보는 영상",
+      "route": "/share/watch"
+    },
+    {
+      "title": "읽는 책",
+      "route": "/share/read"
+    },
+    {
+      "title": "들어주는 고민",
+      "route": "/share/listen"
+    },
+    {
+      "title": "그라운드",
+      "route":"/ground"
+    }
+  ]
+}

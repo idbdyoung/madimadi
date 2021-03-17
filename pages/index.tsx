@@ -6,9 +6,9 @@ const Container = styled.div`
 `;
 
 const index: NextPage = () => {
+
   return (
     <Container>
-      <div>MadiMadi</div>
     </Container>
   )
 };
