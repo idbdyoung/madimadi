@@ -91,6 +91,9 @@ const Container = styled.div<colorType>`
 const Header: React.FC = () => {
   const router = useRouter();
 
+  const onClick = () => {
+  };
+
   return (
     <Container route={router.pathname}>
       <div className='header header-left'>
@@ -136,7 +139,7 @@ const Header: React.FC = () => {
       <div className='header header-right'>
         <Button
           text='Login'
-          onClick={() => {}}
+          onClick={onClick}
         />
       </div>
     </Container>
