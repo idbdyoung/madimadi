@@ -1,6 +1,10 @@
 import { useRouter } from 'next/dist/client/router';
 import styled from 'styled-components';
+
 import { menu as menuList } from '../data/menu.json';
+import LogoIcon from '../public/static/images/logo.svg'
+
+import Button from '../components/Button';
 
 type colorType = {
   route: string;
@@ -9,6 +13,7 @@ type colorType = {
 const Container = styled.div<colorType>`
   display: flex;
   flex-direction: row;
+  justify-content: center;
   width: 100%;
   padding-top: 3px;
   border-bottom: 1px solid #E5E5E5;
@@ -17,8 +22,12 @@ const Container = styled.div<colorType>`
     align-items: center;
   }
   .header-left {
+    width: 292px;
     display: flex;
-    flex: 1;
+    justify-content: flex-start;
+    .header-logo {
+      cursor: pointer;
+    }
   }
   .header-middle {
     display: flex;
@@ -50,8 +59,9 @@ const Container = styled.div<colorType>`
           color: ${(props) => props.route === '/ground' ? '#219653' : '#2F80ED'};
         }
         button {
-          width: 80px;
+          width: 90px;
           height: 54px;
+          font-size:15px;
         }
         button:hover + .selected-menu-bar {
           visibility: visible;
@@ -72,8 +82,9 @@ const Container = styled.div<colorType>`
     }
   }
   .header-right {
+    width: 292px;
     display: flex;
-    flex: 1;
+    justify-content: flex-end;
   }
 `;
 
@@ -83,7 +94,10 @@ const Header: React.FC = () => {
   return (
     <Container route={router.pathname}>
       <div className='header header-left'>
-        madimadi
+        <LogoIcon
+          className='header-logo'
+          onClick={() => router.push('/')}
+        />
       </div>
       <div className='header header-middle'>
         <ul>
@@ -120,7 +134,10 @@ const Header: React.FC = () => {
         </ul>
       </div>
       <div className='header header-right'>
-        계정
+        <Button
+          text='Login'
+          onClick={() => {}}
+        />
       </div>
     </Container>
   );
