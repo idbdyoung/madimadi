@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { menu as menuList } from '../data/menu.json';
 import LogoIcon from '../public/static/images/logo.svg'
 
-import Button from '../components/Button';
+import AuthButton from '../components/AuthButton';
 
 type colorType = {
   route: string;
@@ -91,9 +91,6 @@ const Container = styled.div<colorType>`
 const Header: React.FC = () => {
   const router = useRouter();
 
-  const onClick = () => {
-  };
-
   return (
     <Container route={router.pathname}>
       <div className='header header-left'>
@@ -137,10 +134,7 @@ const Header: React.FC = () => {
         </ul>
       </div>
       <div className='header header-right'>
-        <Button
-          text='Login'
-          onClick={onClick}
-        />
+        <AuthButton />
       </div>
     </Container>
   );

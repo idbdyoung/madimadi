@@ -22,9 +22,7 @@ const Container = styled.div`
 
 const Button: React.FC<IProps>= ({ text, onClick }) => {
   return (
-    <Container
-      onClick={onClick}
-    >
+    <Container onClick={onClick}>
       {
         text
       }

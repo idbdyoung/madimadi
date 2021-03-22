@@ -1,11 +1,10 @@
+import { useContext } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 
+import { modalContext } from './ProvideModal';
+
 const Container = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.3);
   .login-box {
     display: flex;
     flex-direction: column;
@@ -53,6 +52,8 @@ const Container = styled.div`
 `;
 
 const Login: React.FC = () => {
+  const modal = useContext(modalContext);
+
   return (
     <Container>
       <div className='login-box'>
@@ -60,7 +61,7 @@ const Login: React.FC = () => {
           <div className='login-header-title'>
             Login to MadiMadi
           </div>
-          <button onClick={() => {}}>x</button>
+          <button onClick={() => modal.closeModal()}>x</button>
         </div>
         <div className='login-body'>
           <Image
