@@ -1,0 +1,6 @@
+export default {
+  API_URL: process.env.NEXT_PUBLIC_API_URL ?? '',
+  GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? '',
+  GOOGLE_CLIENT_SECRET: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET ?? '',
+  DATABASE_URL: '',
+}

@@ -26,7 +26,7 @@ const useProvideModal = (): ModalType => {
   };
   const closeModal = () => {
     setModalOpen(false);
-  }
+  };
 
   return {
     isModalOpen,
