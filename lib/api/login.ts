@@ -1,3 +1,7 @@
 import axios from './index';
 
-export const loginAPI = () => axios.get('api/auth/login')
+interface LoginApiBody {
+  id: string;
+}
+
+export const loginAPI = (body: LoginApiBody) => axios.post('api/auth/callback', body);

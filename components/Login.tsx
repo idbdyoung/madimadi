@@ -1,6 +1,9 @@
 import { useContext } from 'react';
-import Image from 'next/image';
+import { GoogleLogin } from 'react-google-login';
 import styled from 'styled-components';
+
+import endpoint from '../endpoint';
+import { loginAPI } from '../lib/api/login';
 
 import { modalContext } from './ProvideModal';
 
@@ -54,6 +57,12 @@ const Container = styled.div`
 const Login: React.FC = () => {
   const modal = useContext(modalContext);
 
+  const responseGoogle = async (response: any) => {
+    const { googleId } = response;
+    if (googleId) await loginAPI(googleId);
+    return;
+  };
+
   return (
     <Container>
       <div className='login-box'>
@@ -64,13 +73,12 @@ const Login: React.FC = () => {
           <button onClick={() => modal.closeModal()}>x</button>
         </div>
         <div className='login-body'>
-          <Image
-            className='login-button-google'
-            src='/static/images/google-login-button.png'
-            alt='google-login'
-            width={191}
-            height={46}
-            onClick={() => {}}
+          <GoogleLogin
+            clientId={endpoint.GOOGLE_CLIENT_ID}
+            buttonText="Google Login"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={'single_host_origin'}
           />
         </div>
       </div>

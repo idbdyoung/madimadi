@@ -1,7 +1,7 @@
-import getMenuList from './menu';
+import login from '../data/login';
 
 const Data = {
-  getMenuList,
+  login,
 };
 
 export default Data;
