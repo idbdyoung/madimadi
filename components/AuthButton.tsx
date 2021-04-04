@@ -30,7 +30,7 @@ const AuthButton: React.FC = () => {
           <UserBox />
         ) : (
           <Button
-            text='Login'
+            text='Join'
             onClick={() => modal.openModal(<Login />)}
           />
         )

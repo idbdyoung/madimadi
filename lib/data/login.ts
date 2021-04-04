@@ -2,15 +2,19 @@ import jwt from 'jsonwebtoken';
 import endpoint from '../../endpoint';
 
 const login = (userId: string | string[]) => {
-  //await 비즈니스로직
+  //비즈니스로직
   try {
   } catch (error) {
   }
-  const token = jwt.sign(
+  const userToken = jwt.sign(
     { data: userId },
     endpoint.JWT_SECRET,
   );
-  return token;
+  const userInfo = {};
+  return {
+    userToken,
+    userInfo,
+  };
 };
 
 export default login;

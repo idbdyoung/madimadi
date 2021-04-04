@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -6,7 +6,6 @@ const Container = styled.div`
 `;
 
 const index: NextPage = () => {
-
   return (
     <Container>
     </Container>

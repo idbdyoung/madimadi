@@ -1,9 +1,13 @@
-import { createContext, useState } from 'react';
+import { createContext, ReactNode, useState } from 'react';
 
 interface authType {
   user: any;
   signIn: (...any: any) => any;
   signOut: (...any: any) => any;
+}
+interface IProps {
+  user: string | null;
+  children: ReactNode;
 }
 
 const initialContext: authType = {
@@ -14,33 +18,11 @@ const initialContext: authType = {
 
 export const authContext = createContext(initialContext);
 
-const Auth = {
-  isAuthenticated: false,
-  signIn(cb: any) {
-    Auth.isAuthenticated = true;
-    setTimeout(cb, 100);
-  },
-  signOut(cb: any) {
-    Auth.isAuthenticated = false;
-    setTimeout(cb, 100);
-  }
-};
-
 const useProvideAuth = (): authType => {
   const [user, setUser] = useState<any>(null);
 
-  const signIn = (cb: any) => {
-    return Auth.signIn(() => {
-      setUser('user');
-      cb();
-    });
-  };
-  const signOut = (cb: any) => {
-    return Auth.signOut(() => {
-      setUser('');
-      cb();
-    });
-  };
+  const signIn = (user: string) => (setUser(user));
+  const signOut = () => (setUser(null));
 
   return {
     user,
@@ -49,8 +31,9 @@ const useProvideAuth = (): authType => {
   };
 };
 
-const ProvideAuth: React.FC = ({ children }) => {
+const ProvideAuth: React.FC<IProps> = ({ user, children }) => {
   const auth = useProvideAuth();
+  if (user) auth.user = user;
 
   return (
     <authContext.Provider value={auth}>

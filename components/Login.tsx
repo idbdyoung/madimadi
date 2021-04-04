@@ -3,9 +3,13 @@ import { GoogleLogin } from 'react-google-login';
 import styled from 'styled-components';
 
 import endpoint from '../endpoint';
-import { loginAPI } from '../lib/api/login';
+import { loginAPI } from '../lib/api/auth';
 
+import { authContext } from './ProvideAuth';
 import { modalContext } from './ProvideModal';
+
+const useAuth = () => useContext(authContext);
+const useModal = () => useContext(modalContext);
 
 const Container = styled.div`
   .login-box {
@@ -55,12 +59,20 @@ const Container = styled.div`
 `;
 
 const Login: React.FC = () => {
-  const modal = useContext(modalContext);
+  const modal = useModal();
+  const auth = useAuth();
 
-  const responseGoogle = async (response: any) => {
-    const { googleId } = response;
-    if (googleId) await loginAPI(googleId);
-    return;
+  const onSuccess = async (response: any) => {
+    const { tokenId } = response;
+    const { status } = await loginAPI({ tokenId });
+
+    if (status && status === 200) {
+      modal.closeModal();
+      auth.signIn(tokenId);
+    }
+  };
+  const onFailure = () => {
+    alert('다시 시도해 주세요');
   };
 
   return (
@@ -76,8 +88,8 @@ const Login: React.FC = () => {
           <GoogleLogin
             clientId={endpoint.GOOGLE_CLIENT_ID}
             buttonText="Google Login"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
+            onSuccess={onSuccess}
+            onFailure={onFailure}
             cookiePolicy={'single_host_origin'}
           />
         </div>
