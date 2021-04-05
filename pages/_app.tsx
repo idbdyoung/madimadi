@@ -37,9 +37,9 @@ app.getInitialProps = async ({ ctx }: AppContext) => {
     pageProps = { user };
   } catch (e) {
     console.log(e);
+  } finally {
+    return { pageProps };
   }
-
-  return { pageProps };
 };
 
 export default app;

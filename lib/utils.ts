@@ -5,7 +5,7 @@ export const cookieStringToObject = (cookieString: string | undefined) => {
     itemString.forEach((pairs) => {
       const pair = pairs.split(/\s*=\s*/);
       cookies[pair[0]] = pair.splice(1).join("=");
-    })
+    });
   }
   return cookies;
 };
