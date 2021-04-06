@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/dist/client/router';
 import styled from 'styled-components';
 
@@ -58,17 +59,20 @@ const Container = styled.div<colorType>`
           font-weight: bold;
           color: ${(props) => props.route === '/ground' ? '#219653' : '#2F80ED'};
         }
-        button {
+        .selected-menu-button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
           width: 90px;
           height: 54px;
-          font-size:15px;
+          font-size: 16px;
         }
-        button:hover + .selected-menu-bar {
+        .selected-menu-button:hover + .selected-menu-bar {
           visibility: visible;
           color: #2F80ED;
           opacity: 0.7;
         }
-        button:hover {
+        .selected-menu-button:hover {
           opacity: 0.7;
         }
         .ground-menu-font {
@@ -96,7 +100,9 @@ const Header: React.FC = () => {
       <div className='header header-left'>
         <LogoIcon
           className='header-logo'
-          onClick={() => router.push('/')}
+          onClick={() => router.push({
+            pathname: '/'
+          })}
         />
       </div>
       <div className='header header-middle'>
@@ -108,18 +114,18 @@ const Header: React.FC = () => {
                   className='menu-item'
                   key={menu.title}
                 >
-                  <button
-                    className={`
-                      selected-menu-button
-                      ${router.pathname === menu.route ? ' selected' : ''}
-                      ${menu.route === '/ground' ? ' ground-menu-font' : ''}
-                    `}
-                    onClick={() => router.push(menu.route)}
-                  >
-                    {
-                      menu.title
-                    }
-                  </button>
+                  <Link href={menu.route}>
+                    <a className={`
+                        selected-menu-button
+                        ${router.pathname === menu.route ? ' selected' : ''}
+                        ${menu.route === '/ground' ? ' ground-menu-font' : ''}
+                      `}
+                    >
+                      {
+                        menu.title
+                      }
+                    </a>
+                  </Link>
                   <div
                     className={`
                       selected-menu-bar

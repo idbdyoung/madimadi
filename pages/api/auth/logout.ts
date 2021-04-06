@@ -18,6 +18,7 @@ const logout = async (req: NextApiRequest, res: NextApiResponse) => {
         return res.end();
       }
       const { data } = (<any>jwt.verify(cookieObject['madimadi'], endpoint.JWT_SECRET));
+
       if (!data) {
         res.statusCode = 400;
 
@@ -33,11 +34,10 @@ const logout = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.end();
     } catch (e) {
       res.statusCode = 500;
+      console.log(e);
 
-      return res.send(e);
+      return res.end();
     }
-
-    return res.end();
   }
 };
 

@@ -64,11 +64,11 @@ const Login: React.FC = () => {
 
   const onSuccess = async (response: any) => {
     const { tokenId } = response;
-    const { status } = await loginAPI({ tokenId });
+    const { data } = await loginAPI({ tokenId });
 
-    if (status && status === 200) {
+    if (data) {
       modal.closeModal();
-      auth.signIn(tokenId);
+      auth.signIn(data);
     }
   };
   const onFailure = () => {

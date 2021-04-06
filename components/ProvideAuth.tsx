@@ -1,28 +1,34 @@
 import { createContext, ReactNode, useState } from 'react';
 
+interface userType {
+  isLoggedIn: boolean;
+  userName: string;
+}
 interface authType {
-  user: any;
+  user: userType;
   signIn: (...any: any) => any;
   signOut: (...any: any) => any;
 }
 interface IProps {
-  user: string | null;
+  user: userType,
   children: ReactNode;
 }
 
 const initialContext: authType = {
-  user: null,
+  user: {
+    isLoggedIn: false,
+    userName: '',
+  },
   signIn: () => {},
   signOut: () => {},
 };
 
 export const authContext = createContext(initialContext);
 
-const useProvideAuth = (): authType => {
-  const [user, setUser] = useState<any>(null);
-
-  const signIn = (user: string) => (setUser(user));
-  const signOut = () => (setUser(null));
+const useProvideAuth = (userAuth: userType): authType => {
+  const [user, setUser] = useState<any>(userAuth);
+  const signIn = (userObj: userType) => (setUser(userObj));
+  const signOut = () => (setUser(initialContext.user));
 
   return {
     user,
@@ -32,8 +38,7 @@ const useProvideAuth = (): authType => {
 };
 
 const ProvideAuth: React.FC<IProps> = ({ user, children }) => {
-  const auth = useProvideAuth();
-  if (user) auth.user = user;
+  const auth = useProvideAuth(user);
 
   return (
     <authContext.Provider value={auth}>

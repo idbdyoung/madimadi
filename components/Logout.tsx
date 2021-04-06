@@ -9,7 +9,7 @@ const useAuth = () => useContext(authContext);
 const Container = styled.div`
   .logout-button {
     cursor: pointer;
-    font-size: 16px;
+    font-size: 13px;
   }
   .logout-button :hover {
     opacity: 0.7;
@@ -27,7 +27,8 @@ const Logout: React.FC = () => {
   return (
     <Container onClick={onClick}>
       <div className='logout-button'>
-        Logout
+        {auth.user.userName}
+        로그아웃
       </div>
     </Container>
   );

@@ -7,6 +7,14 @@ const GlobalStyle = createGlobalStyle`
     width: 100vw;
     box-sizing: border-box;
   }
+  a {
+    color: #000000;
+    text-decoration: none;
+    outline: none;
+  }
+  a:hover, a:active {
+    text-decoration: none;
+  }
   button,
   button:focus,
   button:active {

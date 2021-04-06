@@ -26,7 +26,7 @@ const AuthButton: React.FC = () => {
   return (
     <Container>
       {
-        auth.user ? (
+        auth.user.isLoggedIn ? (
           <UserBox />
         ) : (
           <Button

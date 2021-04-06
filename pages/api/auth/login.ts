@@ -18,9 +18,7 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
       const userId = ticket.getUserId();
 
       if (!userId) return;
-      const { userToken, userInfo } = await Data.login(userId);
-
-      Redis.del(userToken);
+      const { userToken, userData } = await Data.login(userId);
       Redis.get(userToken, async (err, reply) => {
         if (err) throw err;
 
@@ -30,12 +28,12 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         if (reply === null) {
-          const sUserInfo = JSON.stringify(userInfo);
+          const sUserInfo = JSON.stringify(userData);
           Redis.set(userToken, sUserInfo);
           res.setHeader('Set-Cookie', `madimadi=${userToken}; path=/;`);
           res.statusCode = 200;
 
-          return res.end();
+          return res.send(sUserInfo);
         }
       });
     } catch (e) {

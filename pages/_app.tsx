@@ -10,8 +10,10 @@ import ProvideModal from '../components/ProvideModal';
 import Header from '../components/Header';
 
 const app = ({ Component, pageProps }: AppProps) => {
+  const { user } = pageProps;
+
   return (
-    <ProvideAuth user={pageProps.user}>
+    <ProvideAuth user={user}>
       <GlobalStyle />
       <ProvideModal>
         <Header />
@@ -22,8 +24,12 @@ const app = ({ Component, pageProps }: AppProps) => {
 };
 
 app.getInitialProps = async ({ ctx }: AppContext) => {
-  let pageProps = {};
-  let user = null;
+  const pageProps = {
+    user: {
+      isLoggedIn: false,
+      userName: null,
+    },
+  };
   const cookieString = ctx.req?.headers.cookie;
   const cookieObject = cookieStringToObject(cookieString);
 
@@ -32,9 +38,8 @@ app.getInitialProps = async ({ ctx }: AppContext) => {
       axios.defaults.headers.cookie = cookieObject['madimadi'];
       const { data } = await authAPI();
 
-      if (data) user = data;
+      if (data) pageProps.user = data;
     }
-    pageProps = { user };
   } catch (e) {
     console.log(e);
   } finally {

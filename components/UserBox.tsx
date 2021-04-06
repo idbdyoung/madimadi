@@ -22,10 +22,11 @@ const Container = styled.div`
 const UserBox: React.FC = () => {
   const auth = useAuth();
   const router = useRouter();
+  const { userName } = auth.user;
 
   const onClick = () => {
     router.push({
-      pathname: `/user/${auth.user}`
+      pathname: `/user/${userName}`
     });
   };
 

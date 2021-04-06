@@ -10,10 +10,13 @@ const login = (userId: string | string[]) => {
     { data: userId },
     endpoint.JWT_SECRET,
   );
-  const userInfo = {};
+  const userData = { //유저 목업 데이터
+    isLoggedIn: true,
+    userName: 'idbd',
+  };
   return {
     userToken,
-    userInfo,
+    userData,
   };
 };
 
