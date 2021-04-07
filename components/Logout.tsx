@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 import { logoutAPI } from '../lib/api/auth';
@@ -8,6 +8,8 @@ const useAuth = () => useContext(authContext);
 
 const Container = styled.div`
   .logout-button {
+    width: 100%;
+    height: 100%;
     cursor: pointer;
     font-size: 13px;
   }
@@ -27,7 +29,6 @@ const Logout: React.FC = () => {
   return (
     <Container onClick={onClick}>
       <div className='logout-button'>
-        {auth.user.userName}
         로그아웃
       </div>
     </Container>

@@ -25,8 +25,8 @@ const initialContext: authType = {
 
 export const authContext = createContext(initialContext);
 
-const useProvideAuth = (userAuth: userType): authType => {
-  const [user, setUser] = useState<any>(userAuth);
+const useProvideAuth = (userProp: userType): authType => {
+  const [user, setUser] = useState<any>(userProp);
   const signIn = (userObj: userType) => (setUser(userObj));
   const signOut = () => (setUser(initialContext.user));
 

@@ -2,20 +2,28 @@ import { useContext } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import styled from 'styled-components';
 
-import UserPageIcon from '../public/static/images/userPage.svg';
 import { authContext } from './ProvideAuth';
 
-import Logout from '../components/Logout';
+import UserPageIcon from '../public/static/images/userPage.svg';
+import DropDownMenu from './DropDown/DropDownMenu';
 
 const useAuth = () => useContext(authContext);
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
   .user-page {
-    margin-right: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     cursor: pointer;
+    margin-right: 10px;
+    :hover {
+      opacity: 0.7;
+    }
+    .user-page-icon {
+      margin-right: 10px;
+    }
   }
 `;
 
@@ -32,11 +40,14 @@ const UserBox: React.FC = () => {
 
   return (
     <Container>
-      <UserPageIcon
+      <div
         className='user-page'
         onClick={onClick}
-      />
-      <Logout />
+      >
+        <UserPageIcon className='user-page-icon'/>
+        { userName }
+      </div>
+      <DropDownMenu />
     </Container>
   );
 };
