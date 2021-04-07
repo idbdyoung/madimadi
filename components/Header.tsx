@@ -114,18 +114,34 @@ const Header: React.FC = () => {
                   className='menu-item'
                   key={menu.title}
                 >
-                  <Link href={menu.route}>
-                    <a className={`
-                        selected-menu-button
-                        ${router.pathname === menu.route ? ' selected' : ''}
-                        ${menu.route === '/ground' ? ' ground-menu-font' : ''}
-                      `}
-                    >
-                      {
-                        menu.title
-                      }
-                    </a>
-                  </Link>
+                  {
+                    menu.serverSideRendering ? (
+                      <a
+                        href={menu.route}
+                        className={`
+                          selected-menu-button
+                          ${router.pathname === menu.route ? ' selected' : ''}
+                          ${menu.route === '/ground' ? ' ground-menu-font' : ''}
+                        `}
+                      >
+                        {
+                          menu.title
+                        }
+                      </a> ) : (
+                      <Link href={menu.route}>
+                        <a className={`
+                            selected-menu-button
+                            ${router.pathname === menu.route ? ' selected' : ''}
+                            ${menu.route === '/ground' ? ' ground-menu-font' : ''}
+                          `}
+                        >
+                          {
+                            menu.title
+                          }
+                        </a>
+                      </Link>
+                    )
+                  }
                   <div
                     className={`
                       selected-menu-bar

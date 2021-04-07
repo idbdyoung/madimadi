@@ -2,23 +2,28 @@
   "menu": [
     {
       "title": "한 마디",
-      "route": "/"
+      "route": "/",
+      "serverSideRendering": false
     },
     {
       "title": "보는 영상",
-      "route": "/share/watch"
+      "route": "/share/watch",
+      "serverSideRendering": false
     },
     {
       "title": "읽는 책",
-      "route": "/share/read"
+      "route": "/share/read",
+      "serverSideRendering": false
     },
     {
       "title": "듣는 고민",
-      "route": "/share/listen"
+      "route": "/share/listen",
+      "serverSideRendering": false
     },
     {
       "title": "그라운드",
-      "route":"/ground"
+      "route":"/ground",
+      "serverSideRendering": true
     }
   ]
 }
