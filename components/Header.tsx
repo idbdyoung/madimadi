@@ -16,7 +16,8 @@ const Container = styled.div<colorType>`
   flex-direction: row;
   justify-content: center;
   width: 100%;
-  padding-top: 3px;
+  height: 57px;
+  padding-top: 2px;
   border-bottom: 1px solid #E5E5E5;
   .header {
     justify-content: center;
