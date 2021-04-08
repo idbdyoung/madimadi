@@ -63,11 +63,11 @@ const Login: React.FC = () => {
   const auth = useAuth();
 
   const onSuccess = async (response: any) => {
+    modal.closeModal();
     const { tokenId } = response;
     const { data } = await loginAPI({ tokenId });
 
     if (data) {
-      modal.closeModal();
       auth.signIn(data);
     }
   };
