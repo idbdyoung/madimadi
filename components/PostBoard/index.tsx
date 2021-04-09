@@ -1,5 +1,8 @@
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import PostBox from './PostBox';
+
+import ScrollBoard from './ScrollBoard';
+import SwipeBoard from './SwipeBoard';
 
 interface madiType {
   dateNumber: number;
@@ -12,6 +15,7 @@ interface madiType {
   commentIndex: number[];
 }
 interface IProps {
+  parentNode: any;
   madimadi: madiType[];
 }
 
@@ -23,12 +27,29 @@ const Container = styled.div`
   height: 100%;
 `;
 
-const index: React.FC<IProps> = ({ madimadi }) => {
+const index: React.FC<IProps> = ({ madimadi, parentNode }) => {
+  const ref = useRef(null);
+  const [isCursorOn, setCursorOn] = useState(false);
+
+  const onMouseOver = (e: any) => {
+    setCursorOn(true);
+    if (e.nativeEvent.fromElement === parentNode.current) setCursorOn(true);
+  };
+  const onMouseOut = (e: any) => {
+    if (e.nativeEvent.toElement === parentNode.current) setCursorOn(false);
+  };
+
   return (
-    <Container>
-      <PostBox />
-      <PostBox />
-      <PostBox />
+    <Container
+      ref={ref}
+      onMouseOver={onMouseOver}
+      onMouseOut={onMouseOut}
+    >
+      {
+        isCursorOn ?
+          <ScrollBoard madimadi={madimadi}/> :
+          <SwipeBoard madimadi={madimadi}/>
+      }
     </Container>
   );
 };

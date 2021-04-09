@@ -6,7 +6,7 @@ import { useWindowDimensions } from '../lib/utils';
 
 import PostBoard from '../components/PostBoard';
 import TimeBox from '../components/TimeBox';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface madiType {
   dateNumber: number;
@@ -62,6 +62,7 @@ const Container = styled.div<dimensionType>`
 `;
 
 const index: NextPage<IProps> = ({ madimadi }) => {
+  const ref = useRef(null);
   const windowHeight = useWindowDimensions().height;
   const [pageHeight, setPageHeight] = useState<number>(0);
 
@@ -70,7 +71,10 @@ const index: NextPage<IProps> = ({ madimadi }) => {
   }, [windowHeight]);
 
   return (
-    <Container height={pageHeight}>
+    <Container
+      height={pageHeight}
+      ref={ref}
+    >
       <div className='madimadi-contents'>
         <div className='madimadi-title'>
           오늘의 한마디
@@ -79,7 +83,7 @@ const index: NextPage<IProps> = ({ madimadi }) => {
           <TimeBox />
         </div>
         <div className='madimadi-board'>
-          <PostBoard madimadi={madimadi}/>
+          <PostBoard madimadi={madimadi} parentNode={ref}/>
         </div>
       </div>
     </Container>
@@ -90,11 +94,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
   try {
     const { data } = await getMadi();
 
-    return { props: { madiArr: data } };
+    return { props: { madimadi: data } };
   } catch (e) {
     console.log(e);
 
-    return { props: { madiArr: [] } };
+    return { props: { madimadi: [] } };
   }
 };
 

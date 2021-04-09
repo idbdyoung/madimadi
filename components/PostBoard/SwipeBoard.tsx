@@ -10,26 +10,21 @@ interface madiType {
   like: number;
   commentIndex: number[];
 }
-
 interface IProps {
-  madi: madiType;
+  madimadi: madiType[];
 }
 
 const Container = styled.div`
-  width: 99%;
-  height: 200px;
-  border: 1px solid #C2CFE0;
-  background: blue;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  width: 100%;
+  height: 100%;
+  background: yellow;
 `;
 
-const PostBox: React.FC<IProps> = ({ madi }) => {
+const SwipeBoard: React.FC<IProps> = ({ madimadi }) => {
   return (
     <Container>
-
     </Container>
   );
 };
 
-export default PostBox;
+export default SwipeBoard;
