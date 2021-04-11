@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import ScrollBoard from './ScrollBoard';
@@ -18,23 +18,47 @@ interface IProps {
   madimadi: madiType[];
   pageHeight: number;
 }
+interface ContainerType {
+  opacity: number;
+}
 
-const Container = styled.div`
+const Container = styled.div<ContainerType>`
   display: flex;
-  flex: 1;
-  align-items: center;
-  flex-direction: column;
   width: 100%;
+  opacity: ${props => props.opacity};
 `;
 
 const index: React.FC<IProps> = ({ madimadi, pageHeight }) => {
   const [isCursorOver, setCursorOver] = useState(false);
+  const [opacity, setOpacity] = useState<number>(1);
 
-  const onMouseLeave = () => (setCursorOver(false));
-  const onMouseEnter = () => (setCursorOver(true));
+  const fadeInAnimation = (opacity: number) => {
+    if (opacity >= 1) return;
+    let opacityLevel = opacity + 0.2;
+    setTimeout(() => fadeInAnimation(opacityLevel), 80);
+    setOpacity(opacityLevel);
+  };
+  const fadeOutAnimation = (opacity: number) => {
+    let opacityLevel = opacity - 0.2;
+
+    if (opacityLevel <= 0) {
+      setOpacity(1);
+      setCursorOver(true);
+      return;
+    }
+    setTimeout(() => fadeOutAnimation(opacityLevel), 0);
+    setOpacity(opacityLevel);
+  };
+
+  const onMouseLeave = () => {
+    setCursorOver(false);
+    fadeInAnimation(0);
+  };
+  const onMouseEnter = () => fadeOutAnimation(opacity);
 
   return (
     <Container
+      opacity={opacity}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >

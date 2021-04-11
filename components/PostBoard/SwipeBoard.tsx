@@ -54,11 +54,11 @@ const SwipeBoard: React.FC<IProps> = ({ madimadi }) => {
         madi={madimadi[0]}
       />
       <PostBox
-        key={madimadi[0].index}
+        key={madimadi[1].index}
         madi={madimadi[0]}
       />
       <PostBox
-        key={madimadi[0].index}
+        key={madimadi[2].index}
         madi={madimadi[0]}
       />
     </Container>

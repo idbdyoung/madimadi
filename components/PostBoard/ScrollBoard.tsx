@@ -21,8 +21,7 @@ interface ContainerType {
 }
 
 const Container = styled.div<ContainerType>`
-  flex-direction: column;
-  align-items: center;
+  display: block;
   margin-top: 10px;
   margin-bottom: 20px;
   width: 100%;

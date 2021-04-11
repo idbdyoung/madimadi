@@ -10,17 +10,16 @@ interface madiType {
   like: number;
   commentIndex: number[];
 }
-
 interface IProps {
   madi: madiType;
 }
 
 const Container = styled.div`
+  margin: 10px auto;
   width: 99%;
   height: 224px;
   border: 1px solid #C2CFE0;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  cursor: pointer;
 `;
 
 const PostBox: React.FC<IProps> = ({ madi }) => {
