@@ -14,20 +14,25 @@ interface madiType {
 }
 interface IProps {
   madimadi: madiType[];
+  pageHeight: number;
+}
+interface ContainerType {
+  height: number;
 }
 
-const Container = styled.div`
-  display: flex;
+const Container = styled.div<ContainerType>`
   flex-direction: column;
   align-items: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
   width: 100%;
-  height: 100%;
-  background: magenta;
+  height: ${props => `${props.height - 30}px`};
+  overflow: scroll;
 `;
 
-const ScrollBoard: React.FC<IProps> = ({ madimadi }) => {
+const ScrollBoard: React.FC<IProps> = ({ madimadi, pageHeight }) => {
   return (
-    <Container>
+    <Container height={pageHeight}>
       {
         madimadi.map(madi => {
           return (

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import ScrollBoard from './ScrollBoard';
@@ -15,39 +15,32 @@ interface madiType {
   commentIndex: number[];
 }
 interface IProps {
-  parentNode: any;
   madimadi: madiType[];
+  pageHeight: number;
 }
 
 const Container = styled.div`
   display: flex;
+  flex: 1;
   align-items: center;
   flex-direction: column;
   width: 100%;
-  height: 100%;
 `;
 
-const index: React.FC<IProps> = ({ madimadi, parentNode }) => {
-  const ref = useRef(null);
-  const [isCursorOn, setCursorOn] = useState(false);
+const index: React.FC<IProps> = ({ madimadi, pageHeight }) => {
+  const [isCursorOver, setCursorOver] = useState(false);
 
-  const onMouseOver = (e: any) => {
-    setCursorOn(true);
-    if (e.nativeEvent.fromElement === parentNode.current) setCursorOn(true);
-  };
-  const onMouseOut = (e: any) => {
-    if (e.nativeEvent.toElement === parentNode.current) setCursorOn(false);
-  };
+  const onMouseLeave = () => (setCursorOver(false));
+  const onMouseEnter = () => (setCursorOver(true));
 
   return (
     <Container
-      ref={ref}
-      onMouseOver={onMouseOver}
-      onMouseOut={onMouseOut}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       {
-        isCursorOn ?
-          <ScrollBoard madimadi={madimadi}/> :
+        isCursorOver ?
+          <ScrollBoard madimadi={madimadi} pageHeight={pageHeight}/> :
           <SwipeBoard madimadi={madimadi}/>
       }
     </Container>

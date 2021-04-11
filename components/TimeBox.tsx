@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   width: 101px;
-  height: 20px;
   color: #6A707E;
   font-family: Noto Sans;
   font-size: 12px;

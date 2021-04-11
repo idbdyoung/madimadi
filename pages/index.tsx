@@ -5,8 +5,7 @@ import { getMadi } from '../lib/api/madi';
 import { useWindowDimensions } from '../lib/utils';
 
 import PostBoard from '../components/PostBoard';
-import TimeBox from '../components/TimeBox';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface madiType {
   dateNumber: number;
@@ -37,32 +36,10 @@ const Container = styled.div<dimensionType>`
     flex-direction: column;
     width: 800px;
     height: 100%;
-    .madimadi-title {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 90px;
-      font-family: Noto Sans;
-      font-size: 25px;
-      font-style: normal;
-      font-weight: 600;
-    }
-    .madimadi-time {
-      display: flex;
-      justify-content: flex-end;
-      width: 100%;
-    }
-    .madimadi-board {
-      flex: 1;
-      width: 100%;
-      padding-bottom: 33px;
-    }
   }
 `;
 
 const index: NextPage<IProps> = ({ madimadi }) => {
-  const ref = useRef(null);
   const windowHeight = useWindowDimensions().height;
   const [pageHeight, setPageHeight] = useState<number>(0);
 
@@ -71,20 +48,9 @@ const index: NextPage<IProps> = ({ madimadi }) => {
   }, [windowHeight]);
 
   return (
-    <Container
-      height={pageHeight}
-      ref={ref}
-    >
+    <Container height={pageHeight}>
       <div className='madimadi-contents'>
-        <div className='madimadi-title'>
-          오늘의 한마디
-        </div>
-        <div className='madimadi-time'>
-          <TimeBox />
-        </div>
-        <div className='madimadi-board'>
-          <PostBoard madimadi={madimadi} parentNode={ref}/>
-        </div>
+        <PostBoard madimadi={madimadi} pageHeight={pageHeight}/>
       </div>
     </Container>
   );
