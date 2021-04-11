@@ -49,7 +49,6 @@ const index: React.FC<IProps> = ({ madimadi, pageHeight }) => {
     setTimeout(() => fadeOutAnimation(opacityLevel), 0);
     setOpacity(opacityLevel);
   };
-
   const onMouseLeave = () => {
     setCursorOver(false);
     fadeInAnimation(0);
