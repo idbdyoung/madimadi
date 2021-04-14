@@ -3,6 +3,7 @@ import { createContext, ReactNode, useState } from 'react';
 interface userType {
   isLoggedIn: boolean;
   userName: string;
+  userData: any;
 }
 interface authType {
   user: userType;
@@ -18,6 +19,7 @@ const initialContext: authType = {
   user: {
     isLoggedIn: false,
     userName: '',
+    userData: null,
   },
   signIn: () => {},
   signOut: () => {},

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import ScrollBoard from './ScrollBoard';
@@ -35,7 +35,7 @@ const index: React.FC<IProps> = ({ madimadi, pageHeight }) => {
   const fadeInAnimation = (opacity: number) => {
     if (opacity >= 1) return;
     let opacityLevel = opacity + 0.2;
-    setTimeout(() => fadeInAnimation(opacityLevel), 80);
+    setTimeout(() => fadeInAnimation(opacityLevel), 70);
     setOpacity(opacityLevel);
   };
   const fadeOutAnimation = (opacity: number) => {
@@ -46,7 +46,7 @@ const index: React.FC<IProps> = ({ madimadi, pageHeight }) => {
       setCursorOver(true);
       return;
     }
-    setTimeout(() => fadeOutAnimation(opacityLevel), 0);
+    setTimeout(() => fadeOutAnimation(opacityLevel), 40);
     setOpacity(opacityLevel);
   };
   const onMouseLeave = () => {
