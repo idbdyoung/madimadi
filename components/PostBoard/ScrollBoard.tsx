@@ -27,6 +27,7 @@ const Container = styled.div<ContainerType>`
   width: 100%;
   height: ${props => `${props.height - 30}px`};
   overflow: scroll;
+  background: yellow;
 `;
 
 const ScrollBoard: React.FC<IProps> = ({ madimadi, pageHeight }) => {
