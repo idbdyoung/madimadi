@@ -19,6 +19,7 @@ interface madiType {
 }
 interface IProps {
   madi: madiType;
+  boxHeight?: any;
 }
 
 const Container = styled.div`
@@ -26,7 +27,7 @@ const Container = styled.div`
   flex-direction: row;
   margin: 10px auto;
   width: 99%;
-  height: 224px;
+  flex: 1;
   border: 1px solid #C2CFE0;
   cursor: pointer;
   background: white;

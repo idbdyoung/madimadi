@@ -25,6 +25,7 @@ interface ContainerType {
 const Container = styled.div<ContainerType>`
   display: flex;
   width: 100%;
+  height: 100%;
   opacity: ${props => props.opacity};
 `;
 

@@ -31,6 +31,7 @@ const Container = styled.div<dimensionType>`
   justify-content: center;
   width: 100%;
   height: ${(props) => `${props.height}px`};
+  overflow-y: hidden;
   .madimadi-contents {
     display: flex;
     flex-direction: column;
