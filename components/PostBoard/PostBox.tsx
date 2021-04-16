@@ -32,17 +32,21 @@ const Container = styled.div.attrs<containerType>((props) => {
     styleObj.style.height = `${props.boxHeight - 22}px`;
   } else {
     styleObj.style.flex = 1;
+    styleObj.style.border = '1px solid #C2CFE0';
   }
 
   return styleObj;
 })<containerType>`
   display: flex;
   flex-direction: row;
-  margin: 10px auto;
+  margin: 10px 0;
   width: 99%;
-  border: 1px solid #C2CFE0;
   cursor: pointer;
   background: white;
+  border: 1px solid white;
+  :hover {
+    border: 1px solid #C2CFE0;
+  }
   .postbox-inner {
     display: flex;
     padding: 16px;

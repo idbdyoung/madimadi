@@ -22,13 +22,14 @@ interface ContainerType {
 }
 
 const Container = styled.div<ContainerType>`
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-top: 10px;
   margin-bottom: 20px;
   width: 100%;
   height: ${props => `${props.height - 30}px`};
   overflow: scroll;
-  scroll-behavior: smooth;
   overscroll-behavior-y: none;
 `;
 

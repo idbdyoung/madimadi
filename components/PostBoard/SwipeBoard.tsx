@@ -75,7 +75,7 @@ const SwipeContents = styled.div.attrs<SwipeContentsType>(props => ({
 }))<SwipeContentsType>`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
   position: absolute;
   width: 100%;
   -ms-overflow-style: none;

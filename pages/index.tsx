@@ -21,17 +21,19 @@ interface IProps {
   madimadi: madiType[];
 }
 
-interface dimensionType {
+interface containerType {
   width?: number | null;
   height?: number | null;
+  isScrollBoardOpen: boolean;
 };
 
-const Container = styled.div<dimensionType>`
+const Container = styled.div<containerType>`
   display: flex;
   justify-content: center;
   width: 100%;
   height: ${(props) => `${props.height}px`};
   overflow-y: hidden;
+  background: ${(props) => props.isScrollBoardOpen ? 'rgba(194, 207, 224, 0.1)' : ''};
   .madimadi-contents {
     display: flex;
     flex-direction: column;
@@ -57,6 +59,7 @@ const index: NextPage<IProps> = ({ madimadi }) => {
       ref={ref}
       height={pageHeight}
       onClick={onClick}
+      isScrollBoardOpen={isScrollBoardOpen}
     >
       <div className='madimadi-contents'>
         <PostBoard
