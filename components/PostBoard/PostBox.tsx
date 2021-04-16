@@ -21,13 +21,25 @@ interface IProps {
   madi: madiType;
   boxHeight?: any;
 }
+interface containerType {
+  boxHeight: number;
+}
 
-const Container = styled.div`
+const Container = styled.div.attrs<containerType>((props) => {
+  const styleObj: any = { style: {} };
+
+  if (props.boxHeight) {
+    styleObj.style.height = `${props.boxHeight - 22}px`;
+  } else {
+    styleObj.style.flex = 1;
+  }
+
+  return styleObj;
+})<containerType>`
   display: flex;
   flex-direction: row;
   margin: 10px auto;
   width: 99%;
-  flex: 1;
   border: 1px solid #C2CFE0;
   cursor: pointer;
   background: white;
@@ -100,11 +112,11 @@ const Container = styled.div`
 
 const useAuth = () => useContext(authContext);
 
-const PostBox: React.FC<IProps> = ({ madi }) => {
+const PostBox: React.FC<IProps> = ({ madi, boxHeight }) => {
   const auth = useAuth();
 
   return (
-    <Container>
+    <Container boxHeight={boxHeight}>
       <div className='postbox-inner'>
         <div className='postbox-menu'>
           <div className='postbox-menu-user postbox-menu-item'>
