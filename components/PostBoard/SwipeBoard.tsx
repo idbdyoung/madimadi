@@ -33,7 +33,7 @@ const Container = styled.div`
     padding-top: 40px;
     display: flex;
     flex-direction: column;
-    z-index: 999;
+    z-index: 998;
     box-shadow: 0 5px 5px -5px rgba(0,0,0,0.25);
     .madimadi-title {
       display: flex;
@@ -64,7 +64,7 @@ const Container = styled.div`
     width: 100%;
     height: 30px;
     background: white;
-    z-index: 999;
+    z-index: 998;
   }
 `;
 const SwipeContents = styled.div.attrs<SwipeContentsType>(props => ({
