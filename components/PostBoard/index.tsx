@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import ScrollBoard from './ScrollBoard';
@@ -17,6 +17,8 @@ interface madiType {
 interface IProps {
   madimadi: madiType[];
   pageHeight: number;
+  isScrollBoardOpen: boolean;
+  setScrollBoardOpen: (...any: any) => any;
 }
 interface ContainerType {
   opacity: number;
@@ -29,8 +31,7 @@ const Container = styled.div<ContainerType>`
   opacity: ${props => props.opacity};
 `;
 
-const index: React.FC<IProps> = ({ madimadi, pageHeight }) => {
-  const [isCursorOver, setCursorOver] = useState(false);
+const index: React.FC<IProps> = ({ madimadi, pageHeight, isScrollBoardOpen, setScrollBoardOpen }) => {
   const [opacity, setOpacity] = useState<number>(1);
   const [boxHeight, setBoxHeight] = useState(0);
 
@@ -40,35 +41,30 @@ const index: React.FC<IProps> = ({ madimadi, pageHeight }) => {
     setTimeout(() => fadeInAnimation(opacityLevel), 70);
     setOpacity(opacityLevel);
   };
-  const fadeOutAnimation = (opacity: number) => {
-    let opacityLevel = opacity - 0.2;
+  const onClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
 
-    if (opacityLevel <= 0) {
-      setOpacity(1);
-      setCursorOver(true);
-      return;
-    }
-    setTimeout(() => fadeOutAnimation(opacityLevel), 40);
-    setOpacity(opacityLevel);
-  };
-  const onMouseLeave = () => {
-    setCursorOver(false);
+    if (isScrollBoardOpen) return;
     fadeInAnimation(0);
+    setScrollBoardOpen(true);
   };
-  const onMouseEnter = () => fadeOutAnimation(opacity);
 
   return (
     <Container
       opacity={opacity}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      onClick={onClick}
     >
-      {/* <SwipeBoard madimadi={madimadi} setBoxHeight={setBoxHeight}/> */}
-      {/* <ScrollBoard madimadi={madimadi} pageHeight={pageHeight} boxHeight={boxHeight}/> */}
       {
-        isCursorOver ?
-          <ScrollBoard madimadi={madimadi} pageHeight={pageHeight} boxHeight={boxHeight}/> :
-          <SwipeBoard madimadi={madimadi} setBoxHeight={setBoxHeight}/>
+        isScrollBoardOpen ?
+          <ScrollBoard
+            madimadi={madimadi}
+            pageHeight={pageHeight}
+            boxHeight={boxHeight}
+          /> :
+          <SwipeBoard
+            madimadi={madimadi}
+            setBoxHeight={setBoxHeight}
+          />
       }
     </Container>
   );

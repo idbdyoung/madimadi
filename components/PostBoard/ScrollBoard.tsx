@@ -28,6 +28,8 @@ const Container = styled.div<ContainerType>`
   width: 100%;
   height: ${props => `${props.height - 30}px`};
   overflow: scroll;
+  scroll-behavior: smooth;
+  overscroll-behavior-y: none;
 `;
 
 const ScrollBoard: React.FC<IProps> = ({ madimadi, pageHeight, boxHeight }) => {

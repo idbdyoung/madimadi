@@ -5,7 +5,7 @@ import { getMadi } from '../lib/api/madi';
 import { useWindowDimensions } from '../lib/utils';
 
 import PostBoard from '../components/PostBoard';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface madiType {
   dateNumber: number;
@@ -41,17 +41,30 @@ const Container = styled.div<dimensionType>`
 `;
 
 const index: NextPage<IProps> = ({ madimadi }) => {
+  const ref = useRef(null);
   const windowHeight = useWindowDimensions().height;
   const [pageHeight, setPageHeight] = useState<number>(0);
+  const [isScrollBoardOpen, setScrollBoardOpen] = useState(false);
+
+  const onClick = () => setScrollBoardOpen(false);
 
   useEffect(() => {
     if (windowHeight !== null) setPageHeight(windowHeight - 60);
   }, [windowHeight]);
 
   return (
-    <Container height={pageHeight}>
+    <Container
+      ref={ref}
+      height={pageHeight}
+      onClick={onClick}
+    >
       <div className='madimadi-contents'>
-        <PostBoard madimadi={madimadi} pageHeight={pageHeight}/>
+        <PostBoard
+          madimadi={madimadi}
+          pageHeight={pageHeight}
+          isScrollBoardOpen={isScrollBoardOpen}
+          setScrollBoardOpen={setScrollBoardOpen}
+        />
       </div>
     </Container>
   );

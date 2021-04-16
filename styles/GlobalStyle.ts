@@ -5,6 +5,7 @@ const GlobalStyle = createGlobalStyle`
   ${reset}
   html {
     scroll-behavior: smooth;
+    overscroll-behavior-y: none;
   }
   body {
     width: 100vw;
