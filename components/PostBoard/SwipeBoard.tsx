@@ -16,6 +16,7 @@ interface madiType {
 }
 interface IProps {
   madimadi: madiType[];
+  setBoxHeight: (...any: any) => any;
 }
 interface SwipeContentsType {
   contentsY: number;
@@ -81,34 +82,45 @@ const SwipeContents = styled.div.attrs<SwipeContentsType>(props => ({
   scrollbar-width: none;
 `;
 
-const SwipeBoard: React.FC<IProps> = ({ madimadi }) => {
+const SwipeBoard: React.FC<IProps> = ({ madimadi, setBoxHeight }) => {
   const containerRef: any = useRef(null);
   const contentsRef: any = useRef(null);
   const [contentsHeight, setContentsHeight] = useState(0);
   const [contentsY, setContentsY] = useState(0);
   const [swipe, setSwipe] = useState(true);
+  const [isFirstSwipe, setFirstSwipe] = useState(true);
 
-  const resetSwipeBox = () => {
+  const resetSwipe = () => {
     const nodes = contentsRef.current.children;
     contentsRef.current.appendChild(nodes[0]);
+    setTimeout(() => setSwipe(!swipe), 3000);
     setContentsY(-contentsHeight);
     setContentsY(0);
-    setTimeout(() => setSwipe(!swipe), 3000);
   }
   const swipeBoard = () => {
-    if (Math.abs(contentsY) > contentsHeight) return resetSwipeBox();
+    if (Math.abs(contentsY) > contentsHeight) return resetSwipe();
     const location = contentsY - 1;
     setContentsY(location);
     setSwipe(!swipe);
   };
 
   useEffect(() => {
+    setBoxHeight(containerRef.current.offsetHeight / 3);
     setContentsHeight(containerRef.current.offsetHeight / 3);
+
+    return () => setContentsHeight(0);
   }, [containerRef.current, contentsHeight]);
 
   useEffect(() => {
-    setTimeout(swipeBoard, 0.002);
-  }, [swipe]);
+    if (isFirstSwipe) {
+      setTimeout(() => setFirstSwipe(false), 3000);
+
+      return;
+    }
+    const timerId = setTimeout(swipeBoard, 0.002);
+
+    return () => clearTimeout(timerId);
+  }, [swipe, isFirstSwipe]);
 
   return (
     <Container>

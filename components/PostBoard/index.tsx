@@ -32,6 +32,7 @@ const Container = styled.div<ContainerType>`
 const index: React.FC<IProps> = ({ madimadi, pageHeight }) => {
   const [isCursorOver, setCursorOver] = useState(false);
   const [opacity, setOpacity] = useState<number>(1);
+  const [boxHeight, setBoxHeight] = useState(0);
 
   const fadeInAnimation = (opacity: number) => {
     if (opacity >= 1) return;
@@ -62,10 +63,12 @@ const index: React.FC<IProps> = ({ madimadi, pageHeight }) => {
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
+      {/* <SwipeBoard madimadi={madimadi} setBoxHeight={setBoxHeight}/> */}
+      {/* <ScrollBoard madimadi={madimadi} pageHeight={pageHeight} boxHeight={boxHeight}/> */}
       {
         isCursorOver ?
-          <ScrollBoard madimadi={madimadi} pageHeight={pageHeight}/> :
-          <SwipeBoard madimadi={madimadi}/>
+          <ScrollBoard madimadi={madimadi} pageHeight={pageHeight} boxHeight={boxHeight}/> :
+          <SwipeBoard madimadi={madimadi} setBoxHeight={setBoxHeight}/>
       }
     </Container>
   );

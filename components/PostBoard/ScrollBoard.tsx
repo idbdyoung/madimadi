@@ -15,6 +15,7 @@ interface madiType {
 interface IProps {
   madimadi: madiType[];
   pageHeight: number;
+  boxHeight: number;
 }
 interface ContainerType {
   height: number;
@@ -27,10 +28,9 @@ const Container = styled.div<ContainerType>`
   width: 100%;
   height: ${props => `${props.height - 30}px`};
   overflow: scroll;
-  background: yellow;
 `;
 
-const ScrollBoard: React.FC<IProps> = ({ madimadi, pageHeight }) => {
+const ScrollBoard: React.FC<IProps> = ({ madimadi, pageHeight, boxHeight }) => {
   return (
     <Container height={pageHeight}>
       {
@@ -39,6 +39,7 @@ const ScrollBoard: React.FC<IProps> = ({ madimadi, pageHeight }) => {
             <PostBox
               key={madi.index}
               madi={madi}
+              boxHeight={boxHeight}
             />
           );
         })
