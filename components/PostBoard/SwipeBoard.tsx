@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { getMadi } from '../../lib/api/madi';
 
 import TimeBox from '../TimeBox';
 import PostBox from './PostBox';
@@ -14,8 +15,15 @@ interface madiType {
   like: number;
   commentIndex: number[];
 }
+interface madimadiType {
+  index: number,
+  currentPostData: any[] | madiType[];
+  waitingData: any[] | madiType[];
+  recycleData: any[] | madiType[];
+}
 interface IProps {
-  madimadi: madiType[];
+  boardData: madimadiType;
+  setBoardData: (...any: any) => any;
   setBoxHeight: (...any: any) => any;
 }
 interface SwipeContentsType {
@@ -82,21 +90,48 @@ const SwipeContents = styled.div.attrs<SwipeContentsType>(props => ({
   scrollbar-width: none;
 `;
 
-const SwipeBoard: React.FC<IProps> = ({ madimadi, setBoxHeight }) => {
+const SwipeBoard: React.FC<IProps> = ({ boardData, setBoardData, setBoxHeight }) => {
   const containerRef: any = useRef(null);
   const contentsRef: any = useRef(null);
   const [contentsHeight, setContentsHeight] = useState(0);
   const [contentsY, setContentsY] = useState(0);
   const [swipe, setSwipe] = useState(true);
   const [isFirstSwipe, setFirstSwipe] = useState(true);
+  const [receiveLastData, setReceiveLastData] = useState(false);
+  const [dataIndex, setDataIndex] = useState(boardData.index);
 
+  const setNextBoardData = async () => {
+    if (!boardData.waitingData.length && receiveLastData === false) {
+      try {
+        const { data } = await getMadi(dataIndex + 1);
+        const { responseData, isLastData } = data;
+        boardData.waitingData = responseData;
+
+        if (isLastData === true) setReceiveLastData(true);
+        setBoardData(boardData);
+        setDataIndex(dataIndex + 1);
+      } catch (e) {
+        console.log(e);
+      }
+    } else if (!boardData.waitingData.length && receiveLastData === true) {
+      boardData.waitingData = boardData.recycleData;
+      boardData.recycleData = [];
+      setBoardData(boardData);
+    }
+    const shownPostData = boardData.currentPostData.shift();
+    boardData.recycleData.push(shownPostData);
+    const firstWaitingData = boardData.waitingData.shift();
+    boardData.currentPostData.push(firstWaitingData);
+    setBoardData(boardData);
+  };
   const resetSwipe = () => {
     const nodes = contentsRef.current.children;
     contentsRef.current.appendChild(nodes[0]);
     setTimeout(() => setSwipe(!swipe), 3000);
     setContentsY(-contentsHeight);
     setContentsY(0);
-  }
+    setNextBoardData();
+  };
   const swipeBoard = () => {
     if (Math.abs(contentsY) > contentsHeight) return resetSwipe();
     const location = contentsY - 1;
@@ -114,7 +149,6 @@ const SwipeBoard: React.FC<IProps> = ({ madimadi, setBoxHeight }) => {
   useEffect(() => {
     if (isFirstSwipe) {
       setTimeout(() => setFirstSwipe(false), 3000);
-
       return;
     }
     const timerId = setTimeout(swipeBoard, 0.002);
@@ -141,10 +175,14 @@ const SwipeBoard: React.FC<IProps> = ({ madimadi, setBoxHeight }) => {
           contentsHeight={contentsHeight}
           contentsY={contentsY}
         >
-          <PostBox madi={madimadi[0]}/>
-          <PostBox madi={madimadi[1]}/>
-          <PostBox madi={madimadi[2]}/>
-          <PostBox madi={madimadi[3]}/>
+          {
+            boardData.currentPostData.map((madi: madiType) => (
+              <PostBox
+                key={madi.index}
+                madi={madi}
+              />
+            ))
+          }
         </SwipeContents>
       </div>
       <div className='madimadi-swipe-footer'/>

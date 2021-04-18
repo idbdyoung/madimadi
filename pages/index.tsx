@@ -17,8 +17,14 @@ interface madiType {
   like: number;
   commentIndex: number[];
 }
+interface madimadiType {
+  index: number,
+  currentPostData: any[] | madiType[];
+  waitingData: any[] | madiType[];
+  recycleData: any[] | madiType[];
+}
 interface IProps {
-  madimadi: madiType[];
+  madimadi: madimadiType;
 }
 
 interface containerType {
@@ -75,13 +81,34 @@ const index: NextPage<IProps> = ({ madimadi }) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const { data } = await getMadi();
+    const currentPostData: any[] = [];
+    const waitingData: any[] = [];
+    const recycleData: any[] = [];
+    const { data } = await getMadi(0);
+    const { responseData } = data;
 
-    return { props: { madimadi: data } };
+    for (let i = 0; i < responseData.length; i ++) {
+      if (i < 4) {
+        currentPostData.push(responseData[i]);
+      } else {
+        waitingData.push(responseData[i]);
+      }
+    }
+
+    return {
+      props: {
+        madimadi: {
+          index: 0,
+          currentPostData,
+          waitingData,
+          recycleData,
+        }
+      }
+    };
   } catch (e) {
     console.log(e);
 
-    return { props: { madimadi: [] } };
+    return { props: { madimadi: {} } };
   }
 };
 

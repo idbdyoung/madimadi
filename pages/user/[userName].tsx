@@ -9,7 +9,6 @@ const userPage: NextPage = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (props) => {
-  console.log(props.query);
   return { props: {} };
 };
 

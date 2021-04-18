@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import ScrollBoard from './ScrollBoard';
@@ -14,8 +14,14 @@ interface madiType {
   like: number;
   commentIndex: number[];
 }
+interface madimadiType {
+  index: number,
+  currentPostData: any[] | madiType[];
+  waitingData: any[] | madiType[];
+  recycleData: any[] | madiType[];
+}
 interface IProps {
-  madimadi: madiType[];
+  madimadi: madimadiType;
   pageHeight: number;
   isScrollBoardOpen: boolean;
   setScrollBoardOpen: (...any: any) => any;
@@ -34,6 +40,7 @@ const Container = styled.div<ContainerType>`
 const index: React.FC<IProps> = ({ madimadi, pageHeight, isScrollBoardOpen, setScrollBoardOpen }) => {
   const [opacity, setOpacity] = useState<number>(1);
   const [boxHeight, setBoxHeight] = useState(0);
+  const [boardData, setBoardData] = useState(madimadi);
 
   const fadeInAnimation = (opacity: number) => {
     if (opacity >= 1) return;
@@ -57,12 +64,14 @@ const index: React.FC<IProps> = ({ madimadi, pageHeight, isScrollBoardOpen, setS
       {
         isScrollBoardOpen ?
           <ScrollBoard
-            madimadi={madimadi}
+            boardData={boardData}
+            setBoardData={setBoardData}
             pageHeight={pageHeight}
             boxHeight={boxHeight}
           /> :
           <SwipeBoard
-            madimadi={madimadi}
+            boardData={boardData}
+            setBoardData={setBoardData}
             setBoxHeight={setBoxHeight}
           />
       }

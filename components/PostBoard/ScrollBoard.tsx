@@ -12,8 +12,14 @@ interface madiType {
   like: number;
   commentIndex: number[];
 }
+interface madimadiType {
+  currentPostData: any[] | madiType[];
+  waitingData: any[] | madiType[];
+  recycleData: any[] | madiType[];
+}
 interface IProps {
-  madimadi: madiType[];
+  boardData: madimadiType;
+  setBoardData: (...any: any) => any;
   pageHeight: number;
   boxHeight: number;
 }
@@ -33,19 +39,11 @@ const Container = styled.div<ContainerType>`
   overscroll-behavior-y: none;
 `;
 
-const ScrollBoard: React.FC<IProps> = ({ madimadi, pageHeight, boxHeight }) => {
+const ScrollBoard: React.FC<IProps> = ({ boardData, pageHeight, boxHeight }) => {
   return (
     <Container height={pageHeight}>
       {
-        madimadi.map(madi => {
-          return (
-            <PostBox
-              key={madi.index}
-              madi={madi}
-              boxHeight={boxHeight}
-            />
-          );
-        })
+        <></>
       }
     </Container>
   );
