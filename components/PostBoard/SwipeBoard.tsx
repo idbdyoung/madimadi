@@ -1,20 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+
 import { getMadi } from '../../lib/api/madi';
 
 import TimeBox from '../TimeBox';
 import PostBox from './PostBox';
 
-interface madiType {
-  dateNumber: number;
-  index: number;
-  authorObj: any;
-  created: string;
-  contents: string;
-  source: string;
-  like: number;
-  commentIndex: number[];
-}
+import { madiType } from '../../types/madi';
+
 interface madimadiType {
   index: number,
   currentPostData: any[] | madiType[];

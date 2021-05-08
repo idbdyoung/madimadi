@@ -1,4 +1,9 @@
-import { useContext } from 'react';
+import {
+  SetStateAction,
+  useContext,
+  useEffect,
+  useRef,
+} from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 
@@ -10,18 +15,19 @@ import { authContext } from '../ProvideAuth';
 import { madiType } from '../../types/madi';
 
 interface IProps {
+  setTarget?: SetStateAction<any>;
   madi: madiType;
-  boxHeight?: any;
+  itemHeight?: number;
 }
 interface containerType {
-  boxHeight: number;
+  itemHeight?: number;
 }
 
 const Container = styled.div.attrs<containerType>((props) => {
   const styleObj: any = { style: {} };
 
-  if (props.boxHeight) {
-    styleObj.style.height = `${props.boxHeight - 22}px`;
+  if (props.itemHeight) {
+    styleObj.style.height = `${props.itemHeight - 20}px`;
   } else {
     styleObj.style.flex = 1;
     styleObj.style.border = '1px solid #C2CFE0';
@@ -108,11 +114,23 @@ const Container = styled.div.attrs<containerType>((props) => {
 
 const useAuth = () => useContext(authContext);
 
-const PostBox: React.FC<IProps> = ({ madi, boxHeight }) => {
+const PostItem: React.FC<IProps> = ({ setTarget, madi, itemHeight }) => {
   const auth = useAuth();
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (ref && setTarget) {
+      setTarget(ref.current);
+    }
+
+    return () => setTarget && setTarget(null);
+  }, [ref]);
 
   return (
-    <Container boxHeight={boxHeight}>
+    <Container
+      ref={ref}
+      itemHeight={itemHeight}
+    >
       <div className='postbox-inner'>
         <div className='postbox-menu'>
           <div className='postbox-menu-user postbox-menu-item'>
@@ -171,4 +189,4 @@ const PostBox: React.FC<IProps> = ({ madi, boxHeight }) => {
   );
 };
 
-export default PostBox;
+export default PostItem;

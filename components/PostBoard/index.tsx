@@ -4,16 +4,8 @@ import styled from 'styled-components';
 import ScrollBoard from './ScrollBoard';
 import SwipeBoard from './SwipeBoard';
 
-interface madiType {
-  dateNumber: number;
-  index: number;
-  authorObj: any;
-  created: string;
-  contents: string;
-  source: string;
-  like: number;
-  commentIndex: number[];
-}
+import { madiType } from '../../types/madi';
+
 interface madimadiType {
   index: number,
   currentPostData: any[] | madiType[];

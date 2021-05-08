@@ -1,17 +1,7 @@
-import React from 'react';
 import styled from 'styled-components';
-import PostBox from './PostBox';
 
-interface madiType {
-  dateNumber: number;
-  index: number;
-  authorObj: any;
-  created: string;
-  contents: string;
-  source: string;
-  like: number;
-  commentIndex: number[];
-}
+import { madiType } from '../../types/madi';
+
 interface madimadiType {
   currentPostData: any[] | madiType[];
   waitingData: any[] | madiType[];
