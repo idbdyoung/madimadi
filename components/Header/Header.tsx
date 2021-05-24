@@ -1,11 +1,14 @@
+import { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { useRouter } from 'next/dist/client/router';
 import styled from 'styled-components';
 
-import { menu as menuList } from '../data/menu.json';
-import LogoIcon from '../public/static/images/logo.svg'
+import menuList from '../../data/menuList.json';
+import { AppHeightAction } from '../../store/appHeight';
 
-import AuthButton from '../components/AuthButton';
+import LogoIcon from '../../public/static/images/logo.svg'
+import UserContainer from '../../containers/UserContainer';
 
 type colorType = {
   route: string;
@@ -94,10 +97,21 @@ const Container = styled.div<colorType>`
 `;
 
 const Header: React.FC = () => {
+  const dispatch = useDispatch();
+  const containerRef: any = useRef(null);
   const router = useRouter();
 
+  useEffect(() => {
+    if (containerRef.current) {
+      dispatch(AppHeightAction.setHeaderHeight(containerRef.current.offsetHeight));
+    }
+  }, [containerRef.current]);
+
   return (
-    <Container route={router.pathname}>
+    <Container
+      ref={containerRef}
+      route={router.pathname}
+    >
       <div className='header header-left'>
         <LogoIcon
           className='header-logo'
@@ -116,7 +130,7 @@ const Header: React.FC = () => {
                   key={menu.title}
                 >
                   {
-                    menu.serverSideRendering ? (
+                    menu.isServerSideRendering ? (
                       <a
                         href={menu.route}
                         className={`
@@ -157,7 +171,7 @@ const Header: React.FC = () => {
         </ul>
       </div>
       <div className='header header-right'>
-        <AuthButton />
+        <UserContainer />
       </div>
     </Container>
   );

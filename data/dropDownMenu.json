@@ -1,8 +1,6 @@
-{
-  "menu": [
-    {
-      "title": "마이페이지",
-      "route": "/mypage"
-    }
-  ]
-}
+[
+  {
+    "title": "마이페이지",
+    "route": "/mypage"
+  }
+]

@@ -1,115 +1,75 @@
+import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import styled from 'styled-components';
 
-import { getMadi } from '../lib/api/madi';
 import { useWindowDimensions } from '../lib/utils';
+import { wrapper } from '../store';
+import { PostBoardAction } from '../store/postBoard';
+import { getMadi } from '../lib/api/madi';
 
-import PostBoard from '../components/PostBoard';
-import { useEffect, useRef, useState } from 'react';
+import PostBoardContainer from '../containers/PostBoardContainer';
 
-interface madiType {
-  dateNumber: number;
-  index: number;
-  authorObj: any;
-  created: string;
-  contents: string;
-  source: string;
-  like: number;
-  commentIndex: number[];
-}
-interface madimadiType {
-  index: number,
-  currentPostData: any[] | madiType[];
-  waitingData: any[] | madiType[];
-  recycleData: any[] | madiType[];
-}
-interface IProps {
-  madimadi: madimadiType;
+interface ContainerType {
+  pageHeight: number;
 }
 
-interface containerType {
-  width?: number | null;
-  height?: number | null;
-  isScrollBoardOpen: boolean;
-};
-
-const Container = styled.div<containerType>`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: ${(props) => `${props.height}px`};
-  overflow-y: hidden;
-  background: ${(props) => props.isScrollBoardOpen ? 'rgba(194, 207, 224, 0.1)' : ''};
-  .madimadi-contents {
-    display: flex;
-    flex-direction: column;
-    width: 800px;
-    height: 100%;
+const Container = styled.div.attrs<ContainerType>((props) => ({
+  style: {
+    height: `${props.pageHeight}px`,
   }
+}))<ContainerType>`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;
+const PostBoardWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  height: 100%;
 `;
 
-const index: NextPage<IProps> = ({ madimadi }) => {
-  const ref = useRef(null);
+const index: NextPage = () => {
+  const [pageHeight, setPageHeight] = useState(0);
   const windowHeight = useWindowDimensions().height;
-  const [pageHeight, setPageHeight] = useState<number>(0);
-  const [isScrollBoardOpen, setScrollBoardOpen] = useState(false);
-
-  const onClick = () => setScrollBoardOpen(false);
 
   useEffect(() => {
     if (windowHeight !== null) setPageHeight(windowHeight - 60);
+
+    return () => setPageHeight(0);
   }, [windowHeight]);
 
   return (
-    <Container
-      ref={ref}
-      height={pageHeight}
-      onClick={onClick}
-      isScrollBoardOpen={isScrollBoardOpen}
-    >
-      <div className='madimadi-contents'>
-        <PostBoard
-          madimadi={madimadi}
-          pageHeight={pageHeight}
-          isScrollBoardOpen={isScrollBoardOpen}
-          setScrollBoardOpen={setScrollBoardOpen}
-        />
-      </div>
+    <Container pageHeight={pageHeight}>
+      <PostBoardWrapper>
+        <PostBoardContainer />
+      </PostBoardWrapper>
     </Container>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  try {
-    const currentPostData: any[] = [];
-    const waitingData: any[] = [];
-    const recycleData: any[] = [];
-    const { data } = await getMadi(0);
-    const { responseData } = data;
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
+  async ({ store }) => {
+    try {
+      const { data } = await getMadi(0);
+      const { responseData, nextRequestIndex } = data;
+      store.dispatch(PostBoardAction.fetchDataSuccess(nextRequestIndex, responseData));
+      const splicedData = responseData.splice(0, 4);
+      const firstSwipeData = {
+        currentData: splicedData,
+        waitingData: responseData,
+        recycledData: [],
+      };
+      store.dispatch(PostBoardAction.setData(firstSwipeData));
 
-    for (let i = 0; i < responseData.length; i ++) {
-      if (i < 4) {
-        currentPostData.push(responseData[i]);
-      } else {
-        waitingData.push(responseData[i]);
-      }
+      return { props: {} };
+    } catch (error) {
+      console.log(error);
+
+      return { props: {} };
     }
-
-    return {
-      props: {
-        madimadi: {
-          index: 0,
-          currentPostData,
-          waitingData,
-          recycleData,
-        }
-      }
-    };
-  } catch (e) {
-    console.log(e);
-
-    return { props: { madimadi: {} } };
   }
-};
+);
 
 export default index;

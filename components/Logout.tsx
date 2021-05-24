@@ -1,10 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-
-import { logoutAPI } from '../lib/api/auth';
-import { authContext } from './ProvideAuth';
-
-const useAuth = () => useContext(authContext);
 
 const Container = styled.div`
   .logout-button {
@@ -18,14 +13,11 @@ const Container = styled.div`
   }
 `;
 
-const Logout: React.FC = () => {
-  const auth = useAuth();
+interface IProps {
+  onClick: (...any: any) => any;
+}
 
-  const onClick = async () => {
-    await logoutAPI();
-    auth.signOut();
-  };
-
+const Logout: React.FC<IProps> = ({ onClick }) => {
   return (
     <Container onClick={onClick}>
       <div className='logout-button'>

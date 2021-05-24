@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import endpoint from '../../endpoint';
 
 const login = (userId: string | string[]) => {
-  //비즈니스로직
   try {
   } catch (error) {
   }
@@ -10,10 +9,10 @@ const login = (userId: string | string[]) => {
     { data: userId },
     endpoint.JWT_SECRET,
   );
-  const userData = { //유저 목업 데이터
-    isLoggedIn: true,
-    userName: 'idbd',
+  const userData = {
+    userName: 'idbd'
   };
+
   return {
     userToken,
     userData,

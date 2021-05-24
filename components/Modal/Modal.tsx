@@ -1,5 +1,6 @@
 import React, { useContext, useRef } from 'react';
 import styled from 'styled-components';
+
 import { modalContext } from './ProvideModal';
 
 const Container = styled.div`
@@ -16,7 +17,9 @@ const Modal: React.FC = ({ children }) => {
   const modalContainer = useRef<HTMLDivElement>(null);
 
   const onClick = (e: React.MouseEvent) => {
-    if (e.target === modalContainer.current) return modal.closeModal();
+    if (e.target === modalContainer.current) {
+      return modal.closeModal();
+    }
   };
 
   return (

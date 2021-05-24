@@ -1,41 +1,88 @@
+import { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { madiType } from '../../types/madi';
+import { handleBoardDataWhenChangeMode } from '../../lib/utils';
+import { useSelector } from '../../store';
+import { PostBoardAction } from '../../store/postBoard';
 
-interface madimadiType {
-  currentPostData: any[] | madiType[];
-  waitingData: any[] | madiType[];
-  recycleData: any[] | madiType[];
-}
-interface IProps {
-  boardData: madimadiType;
-  setBoardData: (...any: any) => any;
-  pageHeight: number;
-  boxHeight: number;
-}
-interface ContainerType {
-  height: number;
-}
+import PostItem from './PostItem';
 
-const Container = styled.div<ContainerType>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
-  margin-bottom: 20px;
+const ScrollBoardDim = styled.div`
+  position: absolute;
+  top: 60px;
+  left: 0;
   width: 100%;
-  height: ${props => `${props.height - 30}px`};
-  overflow: scroll;
-  overscroll-behavior-y: none;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.03);
+`;
+const Container = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
 `;
 
-const ScrollBoard: React.FC<IProps> = ({ boardData, pageHeight, boxHeight }) => {
-  return (
-    <Container height={pageHeight}>
-      {
-        <></>
+const ScrollBoard: React.FC = () => {
+  const dispatch = useDispatch();
+  const postBoard = useSelector(state => state.postBoard);
+  const scrollData = postBoard.scrollData;
+  const containerRef = useRef<HTMLDivElement>(null);
+  const postItemRefs = useRef<any[]>([]);
+
+  const onClickChangeSwipeMode = () => {
+    const handledBoardData = handleBoardDataWhenChangeMode(postBoard);
+    dispatch(PostBoardAction.setData(handledBoardData));
+    dispatch(PostBoardAction.changeBoardMode());
+  };
+  const onIntersectPostItem: IntersectionObserverCallback = ([entry]) => {
+    if (entry.isIntersecting) {
+      if (entry.target === postItemRefs.current[postItemRefs.current.length - 1]) {
+        dispatch(PostBoardAction.setFetch());
       }
-    </Container>
+    }
+  };
+
+  useEffect(() => {
+    postItemRefs.current = postItemRefs.current.slice(0, scrollData.length);
+
+    if (containerRef.current !== null) {
+      containerRef.current.scroll(0, postBoard.postItemHeight * postBoard.focusedIndex);
+    }
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(onIntersectPostItem, { threshold: 0.5 });
+
+    for (let i = 0; i < postItemRefs.current.length; i++) {
+      observer.observe(postItemRefs.current[i]);
+    }
+
+    return () => observer.disconnect();
+  }, [scrollData]);
+
+  return (
+    <>
+      <ScrollBoardDim onClick={onClickChangeSwipeMode}/>
+      <Container ref={containerRef}>
+        {
+          scrollData.map((data, i) => {
+            return (
+              <div
+                key={i}
+                ref={(el) => postItemRefs.current[i] = el}
+              >
+                <PostItem
+                  key={i}
+                  data={data}
+                  height={postBoard.postItemHeight}
+                />
+              </div>
+            );
+          })
+        }
+      </Container>
+    </>
   );
 };
 

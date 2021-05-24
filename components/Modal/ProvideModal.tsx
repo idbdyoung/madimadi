@@ -1,4 +1,9 @@
-import React, { createContext, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+} from 'react';
+
 import Modal from './Modal';
 
 interface ModalType {
@@ -15,6 +20,7 @@ const initialContext = {
 };
 
 export const modalContext = createContext(initialContext);
+export const useModal = () => useContext(modalContext);
 
 const useProvideModal = (): ModalType => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -43,13 +49,15 @@ const ProvideModal: React.FC = ({ children }) => {
     <modalContext.Provider value={modal}>
       {
         modal.isModalOpen &&
-          <Modal>
-            {
-              modal.modalComponent
-            }
-          </Modal>
+        <Modal>
+          {
+            modal.modalComponent
+          }
+        </Modal>
       }
-      {children}
+      {
+        children
+      }
     </modalContext.Provider>
   );
 };

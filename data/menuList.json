@@ -1,0 +1,27 @@
+[
+  {
+    "title": "한 마디",
+    "route": "/",
+    "isServerSideRendering": false
+  },
+  {
+    "title": "보는 영상",
+    "route": "/share/watch",
+    "isServerSideRendering": false
+  },
+  {
+    "title": "읽는 책",
+    "route": "/share/read",
+    "isServerSideRendering": false
+  },
+  {
+    "title": "듣는 고민",
+    "route": "/share/listen",
+    "isServerSideRendering": false
+  },
+  {
+    "title": "그라운드",
+    "route":"/ground",
+    "isServerSideRendering": true
+  }
+]

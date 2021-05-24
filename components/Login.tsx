@@ -1,15 +1,7 @@
-import { useContext } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import styled from 'styled-components';
 
 import endpoint from '../endpoint';
-import { loginAPI } from '../lib/api/auth';
-
-import { authContext } from './ProvideAuth';
-import { modalContext } from './ProvideModal';
-
-const useAuth = () => useContext(authContext);
-const useModal = () => useContext(modalContext);
 
 const Container = styled.div`
   .login-box {
@@ -58,23 +50,17 @@ const Container = styled.div`
   }
 `;
 
-const Login: React.FC = () => {
-  const modal = useModal();
-  const auth = useAuth();
+interface IProps {
+  onSuccess: (...any: any) => any;
+  onFailure: (...any: any) => any;
+  onCloseModal: (...any: any) => any;
+}
 
-  const onSuccess = async (response: any) => {
-    modal.closeModal();
-    const { tokenId } = response;
-    const { data } = await loginAPI({ tokenId });
-
-    if (data) {
-      auth.signIn(data);
-    }
-  };
-  const onFailure = () => {
-    alert('다시 시도해 주세요');
-  };
-
+const Login: React.FC<IProps> = ({
+  onSuccess,
+  onFailure,
+  onCloseModal
+}) => {
   return (
     <Container>
       <div className='login-box'>
@@ -82,7 +68,7 @@ const Login: React.FC = () => {
           <div className='login-header-title'>
             Login to MadiMadi
           </div>
-          <button onClick={() => modal.closeModal()}>x</button>
+          <button onClick={onCloseModal}>x</button>
         </div>
         <div className='login-body'>
           <GoogleLogin

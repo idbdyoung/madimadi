@@ -20,7 +20,7 @@ const Container = styled.div`
   }
 `;
 
-const Button: React.FC<IProps>= ({ text, onClick }) => {
+const BlueButton: React.FC<IProps>= ({ text, onClick }) => {
   return (
     <Container onClick={onClick}>
       {
@@ -30,4 +30,4 @@ const Button: React.FC<IProps>= ({ text, onClick }) => {
   );
 };
 
-export default Button;
+export default BlueButton;

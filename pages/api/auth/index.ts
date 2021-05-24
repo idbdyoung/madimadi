@@ -1,4 +1,7 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import {
+  NextApiRequest,
+  NextApiResponse,
+} from 'next';
 import jwt from 'jsonwebtoken';
 
 import endpoint from '../../../endpoint';
@@ -16,18 +19,16 @@ const auth = async (req: NextApiRequest, res: NextApiResponse) => {
 
       if (!data) {
         res.statusCode = 400;
-
         return res.end();
       }
       Redis.get(access_token, async (err, reply) => {
         if (err) throw err;
-
+        res.statusCode = 200;
         return res.send(reply);
       });
     } catch (e) {
       console.log(e);
       res.statusCode = 500;
-
       return res.end();
     }
   }

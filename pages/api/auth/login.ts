@@ -28,12 +28,12 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         if (reply === null) {
-          const sUserInfo = JSON.stringify(userData);
-          Redis.set(userToken, sUserInfo);
+          const sUserData = JSON.stringify(userData);
+          Redis.set(userToken, sUserData);
           res.setHeader('Set-Cookie', `madimadi=${userToken}; path=/;`);
           res.statusCode = 200;
 
-          return res.send(sUserInfo);
+          return res.send(sUserData);
         }
       });
     } catch (e) {

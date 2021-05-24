@@ -1,10 +1,12 @@
-export type madiType = {
+import { UserType } from './user';
+
+export type MadiType = {
   dateNumber: number;
   index: number;
-  authorObj: any;
+  authorObj: UserType;
   created: string;
   contents: string;
   source: string;
-  like: number;
+  like: UserType[];
   commentIndex: number[];
 };

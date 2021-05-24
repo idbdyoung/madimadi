@@ -1,52 +1,39 @@
-import { useState } from 'react';
+import Link from 'next/link';
 import styled from 'styled-components';
 
-import { menu as menuList } from '../../data/dropDownMenu.json';
-import DropDownIcon from '../../public/static/images/dropDownButton.svg';
-
-import Item from './DropDownMenuItem';
-import Logout from '../Logout';
-
 const Container = styled.div`
-  margin-top: 5px;
-  cursor: pointer;
-  .drop-down-icon :hover {
-    opacity: 0.3;
-  }
-`;
-const DropDownListContainer = styled.div`
-  position: absolute;
-  top: 40px;
-  width: 100px;
-  background: white;
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 30px;
+  font-size: 13px;
+  :hover {
+    opacity: 0.7;
+  };
 `;
 
-const DropDownMenu: React.FC = () => {
-  const [isClicked, setClicked] = useState(false);
+interface IProps {
+  title?: string;
+  route?: string;
+  component?: (...any: any) => any;
+}
 
-  const onClick = () => (setClicked(!isClicked));
-
+const DropDownMenu: React.FC<IProps> = ({
+  title,
+  route,
+  component,
+}) => {
   return (
-    <Container onClick={onClick}>
-      <DropDownIcon className='drop-down-icon'/>
+    <Container>
       {
-        isClicked &&
-          <DropDownListContainer>
-            {
-              menuList.map(el => {
-                return (
-                  <Item
-                    key={el.route}
-                    title={el.title}
-                    route={el.route}
-                  />
-                );
-              })
-            }
-            <Item ReactFC={Logout}/>
-          </DropDownListContainer>
+        title && route ?
+        <Link href={route}>
+          <a>
+            {title}
+          </a>
+        </Link> :
+        component && component()
       }
     </Container>
   );
