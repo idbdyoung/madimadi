@@ -1,17 +1,19 @@
 import styled from 'styled-components';
 
-interface IProps {
-  text: string;
-  onClick: (...any: any) => any;
+interface ContainerType {
+  borderRadius?: number;
 }
 
-const Container = styled.div`
+const Container = styled.div.attrs<ContainerType>((props) => ({
+  style: {
+    borderRadius: `${props.borderRadius}px`,
+  },
+}))<ContainerType>`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 32px;
-  width: 80px;
-  border-radius: 60px;
+  width: 100%;
+  height: 100%;
   background: #2F80ED;
   color: white;
   cursor: pointer;
@@ -20,9 +22,22 @@ const Container = styled.div`
   }
 `;
 
-const BlueButton: React.FC<IProps>= ({ text, onClick }) => {
+interface IProps {
+  text: string;
+  borderRadius: number;
+  onClick: (...any: any) => any;
+}
+
+const BlueButton: React.FC<IProps> = ({
+  text,
+  borderRadius,
+  onClick,
+}) => {
   return (
-    <Container onClick={onClick}>
+    <Container
+      onClick={onClick}
+      borderRadius={borderRadius}
+    >
       {
         text
       }

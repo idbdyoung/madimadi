@@ -14,6 +14,10 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+  .join-button-wrapper {
+    width: 80px;
+    height: 32px;
+  }
 `;
 
 const UserContainer: React.FC = () => {
@@ -38,10 +42,13 @@ const UserContainer: React.FC = () => {
           auth={auth}
           onClick={onClickMoveUserPage}
         /> :
-        <BlueButton
-          text='Join'
-          onClick={onClickGetLogin}
-        />
+        <div className='join-button-wrapper'>
+          <BlueButton
+            text='Join'
+            onClick={onClickGetLogin}
+            borderRadius={60}
+          />
+        </div>
       }
     </Container>
   );
