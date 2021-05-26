@@ -3,10 +3,16 @@ import { UserType } from './user';
 export type MadiType = {
   dateNumber: number;
   index: number;
-  authorObj: UserType;
+  authorId: UserType.userId;
   created: string;
   contents: string;
   source: string;
-  like: UserType[];
-  commentIndex: number[];
+  like: UserType.userId[];
+  commentId: number[];
+};
+export type PostMadiType = {
+  dateNumber: number;
+  authorId: UserType.userId;
+  contents: string;
+  source: string;
 };
