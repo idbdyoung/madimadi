@@ -28,15 +28,15 @@ const AppContainer = styled.div.attrs<AppContainerType>((props) => ({
   width: 100%;
 `;
 
-interface PageContainer {
+interface PageContainerType {
   pageHeight: number;
 }
 
-const PageContainer = styled.div.attrs<PageContainer>((props) => ({
+const PageContainer = styled.div.attrs<PageContainerType>((props) => ({
   style: {
     height: `${props.pageHeight}px`,
   },
-}))<PageContainer>`
+}))<PageContainerType>`
   width: 100%;
   flex: 1;
 `;

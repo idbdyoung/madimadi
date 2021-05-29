@@ -8,6 +8,7 @@ import { PostBoardAction } from '../store/postBoard';
 import { getMadi } from '../lib/api/madi';
 
 import PostBoardContainer from '../containers/PostBoardContainer';
+import WritingBox from '../components/PostBoard/WritingBox';
 
 interface ContainerType {
   pageHeight: number;
@@ -19,7 +20,7 @@ const Container = styled.div.attrs<ContainerType>((props) => ({
   }
 }))<ContainerType>`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   width: 100%;
 `;
@@ -27,6 +28,15 @@ const PostBoardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 800px;
+  height: 100%;
+`;
+const AlarmBoxWrapper = styled.div`
+  flex: 1;
+  height: 100%;
+  background: blue;
+`;
+const WritingBoxWrapper = styled.div`
+  flex: 1;
   height: 100%;
 `;
 
@@ -42,9 +52,14 @@ const index: NextPage = () => {
 
   return (
     <Container pageHeight={pageHeight}>
+      <AlarmBoxWrapper>
+      </AlarmBoxWrapper>
       <PostBoardWrapper>
         <PostBoardContainer />
       </PostBoardWrapper>
+      <WritingBoxWrapper>
+        <WritingBox />
+      </WritingBoxWrapper>
     </Container>
   );
 };

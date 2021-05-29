@@ -17,7 +17,9 @@ const LoginContainer = () => {
       const { tokenId } = response;
       const { data } = await loginAPI({ tokenId });
 
-      if (!data) throw new Error;
+      if (!data) {
+        throw new Error();
+      }
 
       return dispatch(AuthAction.setLoggedIn(data));
     } catch (error) {

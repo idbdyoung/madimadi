@@ -1,5 +1,6 @@
 export type UserType = {
-  userId: string;
+  id: number;
+  googleId: string;
   userName: string;
-  userAvatarUrl: string;
+  userPhoto: string;
 };
