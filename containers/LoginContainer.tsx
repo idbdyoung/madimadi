@@ -2,8 +2,9 @@ import { useDispatch } from 'react-redux';
 
 import { loginAPI } from '../lib/api/auth';
 import { AuthAction } from '../store/auth';
-import { useModal } from '../components/Modal/ProvideModal';
+import { DropDownAction } from '../store/dropDown';
 
+import { useModal } from '../components/Modal/ProvideModal';
 import Login from '../components/Login';
 
 const LoginContainer = () => {
@@ -17,13 +18,11 @@ const LoginContainer = () => {
       const { tokenId } = response;
       const { data } = await loginAPI({ tokenId });
 
-      if (!data) {
-        throw new Error();
-      }
-
-      return dispatch(AuthAction.setLoggedIn(data));
+      dispatch(AuthAction.setLoggedIn(data));
+      dispatch(DropDownAction.closeDropDown());
     } catch (error) {
       console.log(error);
+      alert('로그인에 실패하였습니다. 다시 시도해 주세요.');
     }
   };
   const onFailure = () => {

@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import Link from 'next/link';
 import { useRouter } from 'next/dist/client/router';
 import styled from 'styled-components';
 
@@ -129,34 +128,18 @@ const Header: React.FC = () => {
                   className='menu-item'
                   key={menu.title}
                 >
-                  {
-                    menu.isServerSideRendering ? (
-                      <a
-                        href={menu.route}
-                        className={`
-                          selected-menu-button
-                          ${router.pathname === menu.route ? ' selected' : ''}
-                          ${menu.route === '/ground' ? ' ground-menu-font' : ''}
-                        `}
-                      >
-                        {
-                          menu.title
-                        }
-                      </a> ) : (
-                      <Link href={menu.route}>
-                        <a className={`
-                            selected-menu-button
-                            ${router.pathname === menu.route ? ' selected' : ''}
-                            ${menu.route === '/ground' ? ' ground-menu-font' : ''}
-                          `}
-                        >
-                          {
-                            menu.title
-                          }
-                        </a>
-                      </Link>
-                    )
-                  }
+                  <a
+                    href={menu.route}
+                    className={`
+                      selected-menu-button
+                      ${router.pathname === menu.route ? ' selected' : ''}
+                      ${menu.route === '/ground' ? ' ground-menu-font' : ''}
+                    `}
+                  >
+                    {
+                      menu.title
+                    }
+                  </a>
                   <div
                     className={`
                       selected-menu-bar

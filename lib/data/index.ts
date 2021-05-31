@@ -1,8 +1,6 @@
-import login from '../data/login';
-import madi from '../data/madi';
+import madi from './madi';
 
 const Data = {
-  login,
   madi,
 };
 

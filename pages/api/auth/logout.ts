@@ -1,33 +1,12 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import jwt from 'jsonwebtoken';
+import { NextApiRequest } from 'next';
 
-import Redis from '../../../lib/redis';
-import endpoint from '../../../endpoint';
-import { cookieStringToObject } from '../../../lib/utils';
+import redis from '../../../lib/redis';
+import verify, { NextApiResponseWithAccessToken } from '../../../lib/utils/verifyAccessToken';
 
-
-const logout = async (req: NextApiRequest, res: NextApiResponse) => {
+const logout = async (req: NextApiRequest, res: NextApiResponseWithAccessToken) => {
   if (req.method === 'GET') {
     try {
-      const access_token = req.headers.cookie;
-      const cookieObject = cookieStringToObject(access_token);
-
-      if (!cookieObject['madimadi']) {
-        res.statusCode = 400;
-
-        return res.end();
-      }
-      const { data } = (<any>jwt.verify(cookieObject['madimadi'], endpoint.JWT_SECRET));
-
-      if (!data) {
-        res.statusCode = 400;
-
-        return res.end();;
-      }
-      Redis.get(cookieObject['madimadi'], async (err) => {
-        if (err) throw err;
-        Redis.del(cookieObject['madimadi']);
-      });
+      redis.del(res.accessToken);
       res.setHeader('Set-Cookie','madimadi=deleted; path=/;');
       res.statusCode = 200;
 
@@ -41,4 +20,4 @@ const logout = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default logout;
+export default verify(logout);

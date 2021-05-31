@@ -4,12 +4,12 @@ import App, { AppContext, AppProps } from 'next/app';
 import styled from 'styled-components';
 
 import GlobalStyle from '../styles/GlobalStyle';
-import axios from '../lib/api/index';
 import { authAPI } from '../lib/api/auth';
 import { cookieStringToObject, useWindowDimensions } from '../lib/utils';
 import { useSelector, wrapper } from '../store';
 import { AuthAction } from '../store/auth';
 import { AppHeightAction } from '../store/appHeight';
+import endpoint from '../endpoint';
 
 import ProvideModal from '../components/Modal/ProvideModal';
 import Header from '../components/Header/Header';
@@ -72,13 +72,14 @@ app.getInitialProps = async (context: AppContext) => {
   const { isLoggedIn } = store.getState().auth;
 
   try {
-    if (!isLoggedIn && cookieObject['madimadi'] && cookieObject['madimadi'] !== 'deleted') {
-      axios.defaults.headers.cookie = cookieObject['madimadi'];
-      const { data } = await authAPI();
+    if (!isLoggedIn && cookieObject['madimadi'] && cookieObject['madimadi'] !== endpoint.TOKEN_DELETED) {
+      const { data } = await authAPI({ tokenId: cookieObject['madimadi'] });
       store.dispatch(AuthAction.setLoggedIn(data));
     }
   } catch (e) {
-    console.log(e);
+    if (e.response.status === 401) {
+      store.dispatch(AuthAction.setInvalidToken());
+    }
   } finally {
     return { ...appInitialProps };
   }

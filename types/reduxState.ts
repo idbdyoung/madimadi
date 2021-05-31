@@ -2,6 +2,7 @@ import { UserType } from './user';
 import { MadiType } from './madi';
 
 export type AuthState = {
+  isInvalidToken: boolean;
   isLoggedIn: boolean;
   user: UserType | null;
 };

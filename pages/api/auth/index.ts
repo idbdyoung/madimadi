@@ -1,34 +1,32 @@
-import {
-  NextApiRequest,
-  NextApiResponse,
-} from 'next';
-import jwt from 'jsonwebtoken';
+import { NextApiRequest } from 'next';
 
-import endpoint from '../../../endpoint';
-import Redis from '../../../lib/redis';
+import { getAsyncRedis } from '../../../lib/redis';
+import { NextApiResponseWithAccessToken, verifyAccessToken } from '../../../lib/utils/verifyAccessToken';
 
-const auth = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'GET') {
+const auth = async (req: NextApiRequest, res: NextApiResponseWithAccessToken) => {
+  if (req.method === 'POST') {
     try {
-      const access_token = req.headers.cookie;
+      const { tokenId } = req.body;
+      const accessToken = verifyAccessToken(tokenId);
 
-      if (!access_token || access_token === endpoint.TOKEN_DELETED) {
+      if (!accessToken) {
+        res.statusCode = 401;
         return res.end();
       }
-      const { data } = (<any>jwt.verify(access_token, endpoint.JWT_SECRET));
 
-      if (!data) {
-        res.statusCode = 400;
+      const result = await getAsyncRedis(accessToken);
+
+      if (!result) {
+        res.statusCode = 401;
         return res.end();
       }
-      Redis.get(access_token, async (err, reply) => {
-        if (err) throw err;
-        res.statusCode = 200;
-        return res.send(reply);
-      });
+      const userData = JSON.parse(result);
+
+      return res.send(userData);
     } catch (e) {
       console.log(e);
       res.statusCode = 500;
+
       return res.end();
     }
   }

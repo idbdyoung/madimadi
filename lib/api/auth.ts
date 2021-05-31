@@ -1,9 +1,9 @@
 import axios from './index';
 
-interface LoginApiBody {
+interface TokenBody {
   tokenId: string;
 }
 
-export const authAPI = () => axios.get('api/auth');
-export const loginAPI = (body: LoginApiBody) => axios.post('api/auth/login', body);
+export const authAPI = (body: TokenBody) => axios.post('api/auth', body);
+export const loginAPI = (body: TokenBody) => axios.post('api/auth/login', body);
 export const logoutAPI = () => axios.get('api/auth/logout');
