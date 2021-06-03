@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 import { useSelector } from '../store';
 
-import { useModal } from '../components/Modal/ProvideModal';
 import LoginContainer from '../containers/LoginContainer';
+import { useModal } from '../components/Modal/ProvideModal';
 import BlueButton from '../components/BlueButton';
 import UserBox from '../components/Header/UserBox';
 
@@ -44,8 +44,8 @@ const UserContainer: React.FC = () => {
       {
         auth.isLoggedIn && auth.user ?
         <UserBox
-          userPicture={auth.user?.userPicture}
-          userName={auth.user?.userName}
+          userName={auth.user.userName}
+          userPicture={auth.user.userPicture}
         /> :
         <div className='join-button-wrapper'>
           <BlueButton

@@ -1,9 +1,6 @@
 import Image from 'next/image'
 import styled from 'styled-components';
 
-import { AuthState } from '../../types/reduxState';
-import UserPageIcon from '../../public/static/images/userPage.svg';
-
 import DropDownContainer from '../../containers/DropDownContainer';
 import { useRouter } from 'next/dist/client/router';
 
