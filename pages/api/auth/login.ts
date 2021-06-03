@@ -26,11 +26,12 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
       let userData: any = await prisma.user.findFirst({ where: { googleId } });
 
       if (userData === null) {
-        userData = prisma.user.create({
+        userData = await prisma.user.create({
           data: {
             googleId: googleId,
+            email: (<string>userInfo.email),
             userName: (<string>userInfo.name),
-            userPhoto: (<string>userInfo.picture),
+            userPicture: (<string>userInfo.picture),
           },
         });
       }
