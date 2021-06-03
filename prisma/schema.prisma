@@ -1,15 +1,39 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+generator client {
+  provider = "prisma-client-js"
+}
 
 model User {
-  id        Int    @id @default(autoincrement())
-  googleId  String
-  userName  String
-  userPhoto String
+  id Int @id @default(autoincrement())
+  googleId String @unique
+  email String @unique
+  userName String @unique
+  userPicture String
+  madimadi Madi[]
+  likes Likes []
+  createdAt DateTime @default(now())
+}
+
+model Madi {
+  id Int @id @default(autoincrement())
+  dateCode String
+  dateIndex Int
+  author User @relation(fields: [authorId], references: [id])
+  authorId Int
+  description String
+  source String?
+  likeUser Likes[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Likes {
+  id Int @id @default(autoincrement())
+  madi Madi @relation(fields: [madiId], references: [id])
+  madiId Int
+  user User @relation(fields: [userId], references: [id])
+  userId Int
 }

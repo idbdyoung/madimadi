@@ -1,18 +1,24 @@
+import { CommentType } from './comment';
 import { UserType } from './user';
 
 export type MadiType = {
-  dateNumber: number;
-  index: number;
-  authorId: UserType.userId;
-  created: string;
-  contents: string;
-  source: string;
-  like: UserType.userId[];
-  commentId: number[];
+  id: number;
+  dateCode: string;
+  dateIndex: number;
+  author: UserType;
+  description: string;
+  source?: string;
+  createdAt: string;
+  updatedAt: string;
+  likes: UserType.userId[];
+  comments: CommentType.commentId[];
 };
+
 export type PostMadiType = {
-  dateNumber: number;
-  authorId: UserType.userId;
-  contents: string;
+  description: string;
   source: string;
+};
+
+export type MadiBodyType = PostMadiType & {
+  authorId: number;
 };
