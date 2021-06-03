@@ -1,5 +1,5 @@
 module.exports = {
   images: {
-    domains: ['imgnews.pstatic.net'],
+    domains: ['lh3.googleusercontent.com'],
   },
 }

@@ -1,4 +1,3 @@
-import { useRouter } from 'next/dist/client/router';
 import styled from 'styled-components';
 
 import { useSelector } from '../store';
@@ -35,13 +34,7 @@ const Container = styled.div`
 const UserContainer: React.FC = () => {
   const auth = useSelector(state => state.auth);
   const modal = useModal();
-  const router = useRouter();
 
-  const onClickMoveUserPage = () => {
-    router.push({
-      pathname: `/user/${auth.user?.userName}`
-    });
-  };
   const onClickGetLogin = () => {
     modal.openModal(<LoginContainer />);
   };
@@ -49,10 +42,10 @@ const UserContainer: React.FC = () => {
   return (
     <Container>
       {
-        auth.isLoggedIn ?
+        auth.isLoggedIn && auth.user ?
         <UserBox
-          auth={auth}
-          onClick={onClickMoveUserPage}
+          userPicture={auth.user?.userPicture}
+          userName={auth.user?.userName}
         /> :
         <div className='join-button-wrapper'>
           <BlueButton

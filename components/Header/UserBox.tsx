@@ -1,9 +1,11 @@
+import Image from 'next/image'
 import styled from 'styled-components';
 
 import { AuthState } from '../../types/reduxState';
 import UserPageIcon from '../../public/static/images/userPage.svg';
 
 import DropDownContainer from '../../containers/DropDownContainer';
+import { useRouter } from 'next/dist/client/router';
 
 const Container = styled.div`
   display: flex;
@@ -17,27 +19,42 @@ const Container = styled.div`
     :hover {
       opacity: 0.7;
     }
-    .user-page-icon {
+    .user-page-picture {
       margin-right: 10px;
+      img {
+        border-radius: 100px;
+      }
     }
   }
 `;
 
 interface Iprops {
-  auth: AuthState;
-  onClick: (...any: any) => any;
+  userPicture: string;
+  userName: string;
 }
 
-const User: React.FC<Iprops> = ({ auth, onClick }) => {
+const User: React.FC<Iprops> = ({ userPicture, userName }) => {
+  const router = useRouter();
+
+  const onClickMoveUserPage = () => {
+    router.push({
+      pathname: `/user/${userName}`
+    });
+  };
+
   return (
-    <Container>
-      <div
-        className='user-page'
-        onClick={onClick}
-      >
-        <UserPageIcon className='user-page-icon'/>
+    <Container onClick={onClickMoveUserPage}>
+      <div className='user-page'>
+        <div className='user-page-picture'>
+          <Image
+            src={userPicture}
+            alt='user-page'
+            width={30}
+            height={30}
+          />
+        </div>
         {
-          auth.user?.userName
+          userName
         }
       </div>
       <DropDownContainer />

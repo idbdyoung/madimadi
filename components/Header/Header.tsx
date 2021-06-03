@@ -8,6 +8,7 @@ import { AppHeightAction } from '../../store/appHeight';
 
 import LogoIcon from '../../public/static/images/logo.svg'
 import UserContainer from '../../containers/UserContainer';
+import Link from 'next/link';
 
 type colorType = {
   route: string;
@@ -112,12 +113,9 @@ const Header: React.FC = () => {
       route={router.pathname}
     >
       <div className='header header-left'>
-        <LogoIcon
-          className='header-logo'
-          onClick={() => router.push({
-            pathname: '/'
-          })}
-        />
+        <a href='/'>
+          <LogoIcon className='header-logo'/>
+        </a>
       </div>
       <div className='header header-middle'>
         <ul>
