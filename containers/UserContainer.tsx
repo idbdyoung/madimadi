@@ -9,7 +9,6 @@ import UserBox from '../components/Header/UserBox';
 
 const Container = styled.div`
   display: flex;
-  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;

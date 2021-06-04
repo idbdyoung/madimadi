@@ -7,14 +7,6 @@ import { DropDownAction } from '../store/dropDown';
 import DropDownIcon from '../public/static/images/dropDownButton.svg';
 import DropDown from '../components/DropDown/DropDown';
 
-const DropDownDim = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 995;
-`;
 const Container = styled.div`
   margin-top: 5px;
   z-index: 999;
@@ -22,6 +14,14 @@ const Container = styled.div`
     cursor: pointer;
     opacity: 0.3;
   }
+`;
+const DropDownDim = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 995;
 `;
 
 const DropDownContainer: React.FC = () => {

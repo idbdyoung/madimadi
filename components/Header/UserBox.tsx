@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import styled from 'styled-components';
+import { useRouter } from 'next/dist/client/router';
 
 import DropDownContainer from '../../containers/DropDownContainer';
-import { useRouter } from 'next/dist/client/router';
 
 const Container = styled.div`
   display: flex;
@@ -40,8 +40,11 @@ const User: React.FC<Iprops> = ({ userPicture, userName }) => {
   };
 
   return (
-    <Container onClick={onClickMoveUserPage}>
-      <div className='user-page'>
+    <Container>
+      <div
+        className='user-page'
+        onClick={onClickMoveUserPage}
+      >
         <div className='user-page-picture'>
           <Image
             src={userPicture}
