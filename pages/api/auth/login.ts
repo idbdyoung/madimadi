@@ -2,9 +2,11 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 
 import redis from '../../../lib/redis';
-import prisma from '../../../lib/db';
 import googleClient from '../../../lib/auth';
 import endpoint from '../../../endpoint';
+import prisma from '../../../lib/db';
+
+const PrismaClient = prisma.getInstance();
 
 const login = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
@@ -20,10 +22,10 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
       if (!googleId || !userInfo) {
         throw new Error();
       }
-      let userData: any = await prisma.user.findFirst({ where: { googleId } });
+      let userData: any = await PrismaClient.user.findFirst({ where: { googleId } });
 
       if (userData === null) {
-        userData = await prisma.user.create({
+        userData = await PrismaClient.user.create({
           data: {
             googleId: googleId,
             email: (<string>userInfo.email),

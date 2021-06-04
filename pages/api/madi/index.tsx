@@ -9,12 +9,14 @@ interface madiResponseType {
   nextRequestIndex: number,
 }
 
+const prismaClient = prisma.getInstance();
+
 const index = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     try {
       const nIndex = Number(req.query.index);
       const dateCode = format(new Date(), 'yyyyMMdd');
-      const madimadi = await prisma.madi.findMany({
+      const madimadi = await prismaClient.madi.findMany({
         skip: nIndex,
         take: 10,
         where: { dateCode },
