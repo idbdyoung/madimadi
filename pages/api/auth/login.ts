@@ -1,13 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { OAuth2Client } from 'google-auth-library';
 import jwt from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client';
+
 import redis from '../../../lib/redis';
-
+import prisma from '../../../lib/db';
+import googleClient from '../../../lib/auth';
 import endpoint from '../../../endpoint';
-
-const googleClient = new OAuth2Client(endpoint.GOOGLE_CLIENT_ID);
-const prisma = new PrismaClient();
 
 const login = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
@@ -43,7 +40,8 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
 
       return res.send(userData);
     } catch (e) {
-      res.statusCode = 500;
+      console.log(e);
+
       return res.send(e);
     }
   }

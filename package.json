@@ -47,7 +47,7 @@
     "@types/styled-components": "^5.1.9",
     "babel-plugin-inline-react-svg": "^2.0.1",
     "cookie-cutter": "^0.2.0",
-    "prisma": "2.23.0",
+    "prisma": "^2.23.0",
     "typescript": "^4.2.3"
   }
 }

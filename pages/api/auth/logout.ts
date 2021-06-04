@@ -12,7 +12,6 @@ const logout = async (req: NextApiRequest, res: NextApiResponseWithAccessToken) 
 
       return res.end();
     } catch (e) {
-      res.statusCode = 500;
       console.log(e);
 
       return res.end();

@@ -14,19 +14,19 @@ import ReduxThunk from 'redux-thunk';
 import auth from './auth';
 import dropDown from './dropDown';
 import postBoard from './postBoard';
-import appHeight from './appHeight';
 
 const rootReducer = combineReducers({
   auth,
   dropDown,
   postBoard,
-  appHeight,
 });
 const reducer = (
   state: any,
   action: AnyAction
 ) => {
   if (action.type === HYDRATE) {
+    action.payload.postBoard.postItemHeight = state.postBoard.postItemHeight;
+
     return {
       ...state,
       ...action.payload,

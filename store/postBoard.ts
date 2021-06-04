@@ -6,7 +6,7 @@ import {
   handleResponseToScrollData,
   isSwipeDataStateType,
   delay,
-} from '../lib/utils';
+} from '../lib/utils/postBoard';
 import { MadiType } from '../types/madi';
 import {
   PostBoardState,
@@ -54,6 +54,7 @@ const fetchBoardData = (postBoardState: PostBoardState) => async (dispatch: Disp
 
     return dispatch(setData(newScrollData));
   } catch (error) {
+    console.log(error);
     dispatch(fetchDataError(error));
   }
 };

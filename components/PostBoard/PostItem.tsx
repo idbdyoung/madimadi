@@ -103,11 +103,7 @@ const PostItem: React.FC<IProps> = ({ data, height }) => {
   const postBoard = useSelector(state => state.postBoard);
   const user = useSelector(state => state.auth).user;
 
-  const onClickOpenPost = () => {
-    if (!postBoard.isSwipeMode) {
-      alert(data.contents);
-    }
-  };
+  const onClickOpenPost = () => {};
 
   return (
     <Container
@@ -121,28 +117,28 @@ const PostItem: React.FC<IProps> = ({ data, height }) => {
               <div className='menu-icon'>
                 <Image
                   className='user-avatar'
-                  src={data.authorObj.userAvatarUrl}
+                  src={data.author.userPicture}
                   width={20}
                   height={20}
                 />
               </div>
               <div className='menu-value'>
                 {
-                  data.authorObj.userName
+                  data.author.userName
                 }
               </div>
             </div>
             <div className='contents-menu'>
               <div className='menu-icon'>
                 {
-                  user && data.like.find(userData => userData.userName === user?.userName) ?
+                  user && data.likes.find(data => data.userName === user?.userName) ?
                   <CheckedHeart /> :
                   <Heart />
                 }
               </div>
               <div className='menu-value'>
                 {
-                  data.like.length
+                  data.likes.length
                 }
               </div>
             </div>
@@ -151,15 +147,13 @@ const PostItem: React.FC<IProps> = ({ data, height }) => {
                 <Comment />
               </div>
               <div className='menu-value'>
-                {
-                  data.commentIndex.length
-                }
+                코맨트 개수
               </div>
             </div>
           </div>
           <div className='contents-text'>
             {
-              data.contents
+              data.description
             }
           </div>
           <div className='contents-source'>

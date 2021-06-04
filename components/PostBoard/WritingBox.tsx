@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { postMadi } from '../../lib/api/madi';
 
 import { useSelector } from '../../store';
 import { PostMadiType } from '../../types/madi';
+import { postMadi } from '../../lib/api/madi';
 
 import BlueButton from '../BlueButton';
 import TimeBox from '../TimeBox';
@@ -70,7 +70,8 @@ const Container = styled.div`
       margin-bottom: 5px;
       textarea {
         text-align: center;
-        padding: 70px 30px;
+        vertical-align: middle;
+        padding-top: 100px;
         width: 300px;
         height: 100%;
         border: 1px solid #C2CFE0;

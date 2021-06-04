@@ -1,20 +1,17 @@
-import { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import Link from 'next/link';
 import { useRouter } from 'next/dist/client/router';
 import styled from 'styled-components';
 
 import menuList from '../../data/menuList.json';
-import { AppHeightAction } from '../../store/appHeight';
 
 import LogoIcon from '../../public/static/images/logo.svg'
 import UserContainer from '../../containers/UserContainer';
-import Link from 'next/link';
 
-type colorType = {
+interface containerType {
   route: string;
 };
 
-const Container = styled.div<colorType>`
+const Container = styled.div<containerType>`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -97,25 +94,16 @@ const Container = styled.div<colorType>`
 `;
 
 const Header: React.FC = () => {
-  const dispatch = useDispatch();
-  const containerRef: any = useRef(null);
   const router = useRouter();
 
-  useEffect(() => {
-    if (containerRef.current) {
-      dispatch(AppHeightAction.setHeaderHeight(containerRef.current.offsetHeight));
-    }
-  }, [containerRef.current]);
-
   return (
-    <Container
-      ref={containerRef}
-      route={router.pathname}
-    >
+    <Container route={router.pathname}>
       <div className='header header-left'>
-        <a href='/'>
-          <LogoIcon className='header-logo'/>
-        </a>
+        <Link href='/'>
+          <a>
+            <LogoIcon className='header-logo'/>
+          </a>
+        </Link>
       </div>
       <div className='header header-middle'>
         <ul>
@@ -126,20 +114,17 @@ const Header: React.FC = () => {
                   className='menu-item'
                   key={menu.title}
                 >
-                  <a
-                    href={menu.route}
-                    className={`
-                      selected-menu-button
-                      ${router.pathname === menu.route ? ' selected' : ''}
-                      ${menu.route === '/ground' ? ' ground-menu-font' : ''}
-                    `}
-                  >
-                    {
-                      menu.title
-                    }
-                  </a>
-                  <div
-                    className={`
+                  <Link href={menu.route}>
+                    <a className={`
+                        selected-menu-button
+                        ${router.pathname === menu.route ? ' selected' : ''}
+                        ${menu.route === '/ground' ? ' ground-menu-font' : ''}
+                      `}
+                    >
+                      { menu.title }
+                    </a>
+                  </Link>
+                  <div className={`
                       selected-menu-bar
                       ${router.pathname === menu.route ? 'selected' : ''}
                       ${menu.route === '/ground' ? ' ground-menu-background' : ''}

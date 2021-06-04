@@ -7,19 +7,26 @@ import { PostBoardAction } from '../store/postBoard';
 
 import SwipeBoard from '../components/PostBoard/SwipeBoard';
 import ScrollBoard from '../components/PostBoard/ScrollBoard';
-import Loading from '../components/Loading';
 
-const Container = styled.div`
+interface ContainerType {
+  height: number | undefined;
+}
+
+const Container = styled.div.attrs<ContainerType>((props) => ({
+  style: {
+    height: `${props.height}px`,
+  },
+}))<ContainerType>`
   display: flex;
   flex-direction: column;
   width: 100%;
-  flex: 1;
   overflow: hidden;
 `;
 
-const index: React.FC = () => {
+const postBoardContainer: React.FC = () => {
   const dispatch = useDispatch();
   const postBoard = useSelector(state => state.postBoard);
+  const pageHeight = postBoard.postItemHeight * 3 + 120;
   const fetch = postBoard.fetch;
   const isFirstRun = useRef<boolean>(true);
 
@@ -32,15 +39,14 @@ const index: React.FC = () => {
   }, [fetch]);
 
   return (
-    <Container>
+    <Container height={pageHeight}>
       {
         postBoard.isSwipeMode ?
         <SwipeBoard /> :
         <ScrollBoard />
       }
-      <Loading />
     </Container>
   );
 };
 
-export default index;
+export default postBoardContainer;

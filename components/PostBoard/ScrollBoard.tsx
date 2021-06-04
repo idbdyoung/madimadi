@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { handleBoardDataWhenChangeMode } from '../../lib/utils';
+import { handleBoardDataWhenChangeMode } from '../../lib/utils/postBoard';
 import { useSelector } from '../../store';
 import { PostBoardAction } from '../../store/postBoard';
 

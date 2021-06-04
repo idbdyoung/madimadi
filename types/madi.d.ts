@@ -11,7 +11,6 @@ export type MadiType = {
   createdAt: string;
   updatedAt: string;
   likes: UserType.userId[];
-  comments: CommentType.commentId[];
 };
 
 export type PostMadiType = {

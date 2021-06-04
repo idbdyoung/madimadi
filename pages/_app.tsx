@@ -1,63 +1,34 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import App, { AppContext, AppProps } from 'next/app';
 import styled from 'styled-components';
 
 import GlobalStyle from '../styles/GlobalStyle';
 import { authAPI } from '../lib/api/auth';
-import { cookieStringToObject, useWindowDimensions } from '../lib/utils';
-import { useSelector, wrapper } from '../store';
+import { cookieStringToObject } from '../lib/utils';
+import { wrapper } from '../store';
 import { AuthAction } from '../store/auth';
-import { AppHeightAction } from '../store/appHeight';
 import endpoint from '../endpoint';
 
 import ProvideModal from '../components/Modal/ProvideModal';
 import Header from '../components/Header/Header';
 
-interface AppContainerType {
-  appHeight: number;
-}
-
-const AppContainer = styled.div.attrs<AppContainerType>((props) => ({
-  style: {
-    height: `${props.appHeight}px`,
-  },
-}))<AppContainerType>`
+const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100vh;
 `;
-
-interface PageContainerType {
-  pageHeight: number;
-}
-
-const PageContainer = styled.div.attrs<PageContainerType>((props) => ({
-  style: {
-    height: `${props.pageHeight}px`,
-  },
-}))<PageContainerType>`
+const PageContainer = styled.div`
   width: 100%;
   flex: 1;
 `;
 
 const app = ({ Component, pageProps }: AppProps) => {
-  const dispatch = useDispatch();
-  const { appHeight, pageHeight } = useSelector(state => state.appHeight);
-  const windowHeight = useWindowDimensions().height;
-
-  useEffect(() => {
-    if (windowHeight !== null) {
-      dispatch(AppHeightAction.setAppHeight(windowHeight));
-    }
-  }, [windowHeight]);
-
   return (
-    <AppContainer appHeight={appHeight}>
+    <AppContainer>
       <GlobalStyle />
       <ProvideModal>
         <Header />
-        <PageContainer pageHeight={pageHeight}>
+        <PageContainer>
           <Component { ...pageProps }/>
         </PageContainer>
       </ProvideModal>
@@ -80,6 +51,7 @@ app.getInitialProps = async (context: AppContext) => {
     if (e.response.status === 401) {
       store.dispatch(AuthAction.setInvalidToken());
     }
+    console.log(e);
   } finally {
     return { ...appInitialProps };
   }

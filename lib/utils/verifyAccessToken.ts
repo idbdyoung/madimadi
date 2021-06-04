@@ -13,6 +13,7 @@ export const verifyAccessToken = (accessToken: string | undefined) => {
     jwt.verify(accessToken, endpoint.JWT_SECRET);
     return accessToken;
   } catch (error) {
+    console.log(error);
     return false;
   }
 };

@@ -25,7 +25,7 @@ model Madi {
   authorId Int
   description String
   source String?
-  likeUser Likes[]
+  likes Likes[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

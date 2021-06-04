@@ -1,65 +1,55 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { GetServerSideProps, NextPage } from 'next';
 import styled from 'styled-components';
 
-import { useWindowDimensions } from '../lib/utils';
 import { wrapper } from '../store';
 import { PostBoardAction } from '../store/postBoard';
 import { getMadi } from '../lib/api/madi';
 
 import PostBoardContainer from '../containers/PostBoardContainer';
 import WritingBox from '../components/PostBoard/WritingBox';
+import Loading from '../components/Loading';
 
-interface ContainerType {
-  pageHeight: number;
-}
-
-const Container = styled.div.attrs<ContainerType>((props) => ({
-  style: {
-    height: `${props.pageHeight}px`,
-  }
-}))<ContainerType>`
+const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   width: 100%;
-`;
-const PostBoardWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 800px;
   height: 100%;
-`;
-const AlarmBoxWrapper = styled.div`
-  flex: 1;
-  height: 100%;
-  background: blue;
-`;
-const WritingBoxWrapper = styled.div`
-  flex: 1;
-  height: 100%;
+  .side-box-wrapper {
+    flex: 1;
+    height: 100%;
+  }
+  .center-box-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 800px;
+    height: 100%;
+  }
 `;
 
 const index: NextPage = () => {
-  const [pageHeight, setPageHeight] = useState(0);
-  const windowHeight = useWindowDimensions().height;
+  const dispatch = useDispatch();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (windowHeight !== null) setPageHeight(windowHeight - 60);
-
-    return () => setPageHeight(0);
-  }, [windowHeight]);
+    if (containerRef.current) {
+      dispatch(PostBoardAction.setPostItemHeight((containerRef.current.offsetHeight - 170) / 3));
+    }
+  }, [containerRef]);
 
   return (
-    <Container pageHeight={pageHeight}>
-      <AlarmBoxWrapper>
-      </AlarmBoxWrapper>
-      <PostBoardWrapper>
+    <Container ref={containerRef}>
+      <div className='side-box-wrapper'>
+      </div>
+      <div className='center-box-wrapper'>
         <PostBoardContainer />
-      </PostBoardWrapper>
-      <WritingBoxWrapper>
+        <Loading />
+      </div>
+      <div className='side-box-wrapper'>
         <WritingBox />
-      </WritingBoxWrapper>
+      </div>
     </Container>
   );
 };

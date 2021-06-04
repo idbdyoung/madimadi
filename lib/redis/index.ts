@@ -1,4 +1,4 @@
-import Redis, { RedisClient } from 'redis';
+import Redis from 'redis';
 import { promisify } from 'util';
 
 import endpoint from '../../endpoint';
