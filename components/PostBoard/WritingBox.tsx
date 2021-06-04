@@ -81,8 +81,16 @@ const Container = styled.div`
         border: 1px solid #C2CFE0;
         background: #F2F9FF;
       }
-      textarea :focus {
+      textarea:focus {
         outline: none;
+      }
+      textarea::placeholder {
+        width: 100%;
+        padding: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
       }
     }
     .writing-box-body-source {
