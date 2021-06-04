@@ -14,11 +14,13 @@ import ReduxThunk from 'redux-thunk';
 import auth from './auth';
 import dropDown from './dropDown';
 import postBoard from './postBoard';
+import loading from './loading';
 
 const rootReducer = combineReducers({
   auth,
   dropDown,
   postBoard,
+  loading,
 });
 const reducer = (
   state: any,

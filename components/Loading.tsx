@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 import { ImSpinner } from 'react-icons/im';
 
-import { useSelector } from '../store';
-
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 50px;
+  height: 100%;
   .spinner-icon {
     width: 30px;
     height: 30px;
@@ -25,13 +23,9 @@ const Container = styled.div`
 `;
 
 const Loading = () => {
-  const isLoading = useSelector(state => state.postBoard).loading;
-
   return (
     <Container>
-      {
-        isLoading && <ImSpinner className='spinner-icon'/>
-      }
+      <ImSpinner className='spinner-icon'/>
     </Container>
   );
 };

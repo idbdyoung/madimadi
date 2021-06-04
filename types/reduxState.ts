@@ -12,7 +12,6 @@ export type DropDownState = {
 export type PostBoardState = {
   fetch: boolean;
   isSwipeMode: boolean;
-  loading: boolean;
   error: any;
   nextRequestMadiIndex: number;
   focusedIndex: number;

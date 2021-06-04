@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { GetServerSideProps, NextPage } from 'next';
 import styled from 'styled-components';
 
-import { wrapper } from '../store';
+import { useSelector, wrapper } from '../store';
 import { PostBoardAction } from '../store/postBoard';
 import { getMadi } from '../lib/api/madi';
 
@@ -26,11 +26,16 @@ const Container = styled.div`
     flex-direction: column;
     width: 800px;
     height: 100%;
+    .loading-container {
+      width: 100%;
+      height: 50px;
+    }
   }
 `;
 
 const index: NextPage = () => {
   const dispatch = useDispatch();
+  const isFetching = useSelector(state => state.loading.getMadiMadiFetching);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,7 +50,11 @@ const index: NextPage = () => {
       </div>
       <div className='center-box-wrapper'>
         <PostBoardContainer />
-        <Loading />
+        <div className='loading-container'>
+          {
+            isFetching && <Loading />
+          }
+        </div>
       </div>
       <div className='side-box-wrapper'>
         <WritingBox />

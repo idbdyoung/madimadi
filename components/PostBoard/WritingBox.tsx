@@ -1,12 +1,15 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { useSelector } from '../../store';
+import { LoadingAction } from '../../store/loading';
 import { PostMadiType } from '../../types/madi';
 import { postMadi } from '../../lib/api/madi';
 
 import BlueButton from '../BlueButton';
 import TimeBox from '../TimeBox';
+import Loading from '../Loading';
 
 const Container = styled.div`
   display: flex;
@@ -59,6 +62,7 @@ const Container = styled.div`
   }
   .writing-box-formbody {
     display: flex;
+    justify-content: center;
     flex-direction: column;
     width: 100%;
     height: 330px;
@@ -109,7 +113,9 @@ const Container = styled.div`
 `;
 
 const WritingBox: React.FC = () => {
-  const user = useSelector(state => state.auth).user;
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.user);
+  const isPosting = useSelector(state => state.loading.postMadimadiFetching);
   const [madi, setMadi] = useState<PostMadiType>({
     description: '',
     source: '',
@@ -127,10 +133,12 @@ const WritingBox: React.FC = () => {
     if (!user) return alert('로그인이 필요한 서비스 입니다.');
 
     try {
+      dispatch(LoadingAction.startPostMadiMadi());
       const result = await postMadi({
         authorId: user.id,
         ...madi,
       });
+      dispatch(LoadingAction.finishPostMadiMadi());
 
       if (result.status) {
         alert('등록되었습니다.');
@@ -140,6 +148,7 @@ const WritingBox: React.FC = () => {
         });
       }
     } catch (error) {
+      dispatch(LoadingAction.finishPostMadiMadi());
       console.log(error);
     }
   };
@@ -160,35 +169,41 @@ const WritingBox: React.FC = () => {
         </div>
       </div>
       <form className='writing-box-formbody'>
-        <div className='writing-box-body-contents'>
-          <textarea
-            placeholder='
-              당신의 멋진 한 마디를 담아주세요&#13;&#10;
-              멋진 글귀도 좋고&#13;&#10;
-              스스로에게 하는 다짐도 좋습니다.
-            '
-            name='description'
-            value={madi.description}
-            onChange={onChangeMadi}
-          />
-        </div>
-        <div className='writing-box-body-source'>
-          <input
-            type='text'
-            placeholder='출처를 적어주세요'
-            name='source'
-            value={madi.source}
-            autoComplete={'off'}
-            onChange={onChangeMadi}
-          />
-        </div>
-        <div className='writing-box-body-button'>
-          <BlueButton
-            text='한 마디 쌓기'
-            onClick={onSubmitMadi}
-            borderRadius={5}
-          />
-        </div>
+        {
+          isPosting ?
+          <Loading /> :
+          <>
+            <div className='writing-box-body-contents'>
+              <textarea
+                placeholder='
+                  당신의 멋진 한 마디를 담아주세요&#13;&#10;
+                  멋진 글귀도 좋고&#13;&#10;
+                  스스로에게 하는 다짐도 좋습니다.
+                '
+                name='description'
+                value={madi.description}
+                onChange={onChangeMadi}
+              />
+            </div>
+            <div className='writing-box-body-source'>
+              <input
+                type='text'
+                placeholder='출처를 적어주세요'
+                name='source'
+                value={madi.source}
+                autoComplete={'off'}
+                onChange={onChangeMadi}
+              />
+            </div>
+            <div className='writing-box-body-button'>
+              <BlueButton
+                text='한 마디 쌓기'
+                onClick={onSubmitMadi}
+                borderRadius={5}
+              />
+            </div>
+          </>
+        }
       </form>
     </Container>
   );
