@@ -128,28 +128,34 @@ const PostItem: React.FC<IProps> = ({ data, height }) => {
                 }
               </div>
             </div>
-            <div className='contents-menu'>
-              <div className='menu-icon'>
-                {
-                  user && data.likes.find(data => data.userName === user?.userName) ?
-                  <CheckedHeart /> :
-                  <Heart />
-                }
+            {
+            data.author.id ?
+            <>
+              <div className='contents-menu'>
+                <div className='menu-icon'>
+                  {
+                    user && data.likes.find(data => data.userName === user?.userName) ?
+                    <CheckedHeart /> :
+                    <Heart />
+                  }
+                </div>
+                <div className='menu-value'>
+                  {
+                    data.likes.length
+                  }
+                </div>
               </div>
-              <div className='menu-value'>
-                {
-                  data.likes.length
-                }
+              <div className='contents-menu'>
+                <div className='menu-icon'>
+                  <Comment />
+                </div>
+                <div className='menu-value'>
+                  코맨트 개수
+                </div>
               </div>
-            </div>
-            <div className='contents-menu'>
-              <div className='menu-icon'>
-                <Comment />
-              </div>
-              <div className='menu-value'>
-                코맨트 개수
-              </div>
-            </div>
+            </>
+            : ''
+            }
           </div>
           <div className='contents-text'>
             {
