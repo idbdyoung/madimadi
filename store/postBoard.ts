@@ -41,7 +41,7 @@ const fetchBoardData = (postBoardState: PostBoardState) => async (dispatch: Disp
     dispatch(LoadingAction.startGetMadiMadi());
     await delay(500);
     const { data } = await getMadi(nextRequestMadiIndex);
-    const { responseData, nextRequestIndex } = data;
+    const { nextRequestIndex, responseData } = data;
     dispatch(fetchDataSuccess(nextRequestIndex, responseData));
     dispatch(LoadingAction.finishGetMadiMadi());
 

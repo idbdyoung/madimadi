@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import { format } from 'date-fns';
 
 import { WindowDimensionType } from '../../types/dimension';
+import phrases from '../../data/phrases.json';
 
 export const cookieStringToObject = (cookieString: string | undefined) => {
   const cookies: { [key: string]: string } = {};
@@ -41,4 +43,33 @@ export const useWindowDimensions = (): WindowDimensionType => {
   }, [hasWindow]);
 
   return windowDimensions;
+};
+
+export const generateMadi = (dataNumber: number) => {
+  const generatedMaidMadi: any = [];
+  phrases.forEach((phrase, i) => {
+    if (i + 1 > dataNumber) {
+      generatedMaidMadi.push({
+        id: i + dataNumber,
+        dateCode: format(new Date(), 'yyyyMMdd'),
+        dateIndex: i + dataNumber,
+        authorId: 0,
+        description: phrase.description,
+        source: phrase.author,
+        createdAt: '',
+        updatedAt: '',
+        author: {
+          id: 0,
+          googleId: '0',
+          email: '0',
+          userName: 'MadiMadi',
+          userPicture: 'https://lh3.googleusercontent.com/a-/AOh14Gil5OYBD87Zl-687iYIQR6LrZNygksorn5Ht3qKPQ=s96-c',
+          createdAt: '',
+        },
+        likes: [],
+      });
+    }
+  });
+
+  return generatedMaidMadi;
 };

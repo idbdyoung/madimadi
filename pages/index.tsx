@@ -67,7 +67,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
   async ({ store }) => {
     try {
       const { data } = await getMadi(0);
-      const { responseData, nextRequestIndex } = data;
+      const { nextRequestIndex, responseData } = data;
       store.dispatch(PostBoardAction.fetchDataSuccess(nextRequestIndex, responseData));
       const splicedData = responseData.splice(0, 4);
       const firstSwipeData = {
