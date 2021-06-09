@@ -2,20 +2,20 @@ import ColoredHeart from '../public/static/images/ColoredHeart.svg';
 import UnColoredHeart from '../public/static/images/UnColoredHeart.svg';
 
 interface IProps {
-  isClicked: boolean;
+  currentUserLikeId: number | null;
   onClickColoredHeart: (...any: any) => any;
   onClickUnCOloredHeart: (...any: any) => any;
 }
 
 const LikeIcon: React.FC<IProps> = ({
-  isClicked,
+  currentUserLikeId,
   onClickColoredHeart,
   onClickUnCOloredHeart,
 }) => {
   return (
     <>
     {
-      isClicked ?
+      currentUserLikeId ?
       <ColoredHeart onClick={onClickColoredHeart}/> :
       <UnColoredHeart onClick={onClickUnCOloredHeart}/>
     }

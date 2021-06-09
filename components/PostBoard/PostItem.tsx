@@ -107,7 +107,6 @@ const PostItem: React.FC<IProps> = ({ data, height }) => {
   const isSwipeMode = useSelector(state => state.postBoard.isSwipeMode);
   const isLoading = useSelector(state => state.loading.setMadiLikeState);
   const user = useSelector(state => state.auth.user);
-  const [isHeartClicked, setHeartClicked] = useState(false);
   const [currentUserLikeId, setCurrentUserLikeId] = useState<number | null>(null);
   const [likeCount, setLikeCount] = useState(0);
 
@@ -118,13 +117,12 @@ const PostItem: React.FC<IProps> = ({ data, height }) => {
 
     try {
       dispatch(LoadingAction.startSetMadiLike());
-      setHeartClicked(true);
-      setLikeCount(likeCount + 1);
       const result = await postMadiLike({
         userId: user?.id,
         madiId,
       });
       setCurrentUserLikeId(result.data.id);
+      setLikeCount(likeCount + 1);
       dispatch(PostBoardAction.setLike(data.id, result.data));
       dispatch(LoadingAction.finishSetMadiLike());
     } catch (error) {
@@ -137,10 +135,9 @@ const PostItem: React.FC<IProps> = ({ data, height }) => {
 
     try {
       dispatch(LoadingAction.startSetMadiLike());
-      setHeartClicked(false);
-      setLikeCount(likeCount - 1);
       await deleteMadiLike(likeId);
       setCurrentUserLikeId(null);
+      setLikeCount(likeCount - 1);
       dispatch(currentUserLikeId && PostBoardAction.setUnLike(data.id, currentUserLikeId));
       dispatch(LoadingAction.finishSetMadiLike());
     } catch (error) {
@@ -153,10 +150,6 @@ const PostItem: React.FC<IProps> = ({ data, height }) => {
 
     if (user) {
       likeId = data.likes.find(like => like.userId === user.id)?.id ?? null;
-    }
-
-    if (likeId) {
-      setHeartClicked(true);
     }
     setCurrentUserLikeId(likeId);
     setLikeCount(data.likes.length);
@@ -197,7 +190,7 @@ const PostItem: React.FC<IProps> = ({ data, height }) => {
             <div className='contents-menu'>
               <div className='menu-icon'>
                 <LikeIcon
-                  isClicked={isHeartClicked}
+                  currentUserLikeId={currentUserLikeId}
                   onClickColoredHeart={() => currentUserLikeId && deleteLike(currentUserLikeId)}
                   onClickUnCOloredHeart={() => postLike(data.id)}
                 />
