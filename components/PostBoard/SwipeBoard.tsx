@@ -12,19 +12,10 @@ import { SwipeDataState } from '../../types/reduxState';
 import { handleBoardDataWhenChangeMode } from '../../lib/utils/postBoard';
 
 import PostItem from './PostItem';
-import PostBoardTitle from './PostBoardTitle';
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  .title-container {
-    position: relative;
-    width: 100%;
-    height: 120px;
-    z-index: 993;
-    margin-bottom: 2px;
-    box-shadow: 0 5px 5px -5px rgba(0,0,0,0.25);
-  }
   .swipe-container {
     position: relative;
     width: 100%;
@@ -53,6 +44,7 @@ const SwipeContents = styled.div.attrs<SwipeContentsType>((props) => ({
   position: absolute;
   width: 100%;
   z-index: 990;
+  cursor: pointer;
 `;
 
 const SwipeBoard: React.FC = () => {
@@ -64,7 +56,7 @@ const SwipeBoard: React.FC = () => {
   const [contentsTop, setContentsTop] = useState(0);
   const [swipe1px, setSwipe1px] = useState(true);
 
-  const onClickChangeScrollMode = () => {
+  const onClickChangeToScrollMode = () => {
     if (!swipeData.currentData.length) return;
     const handledBoardData = handleBoardDataWhenChangeMode(postBoard);
     dispatch(PostBoardAction.setData(handledBoardData));
@@ -116,12 +108,9 @@ const SwipeBoard: React.FC = () => {
 
   return (
     <Container>
-      <div className='title-container'>
-        <PostBoardTitle/>
-      </div>
       <div
         className='swipe-container'
-        onClick={onClickChangeScrollMode}
+        onClick={onClickChangeToScrollMode}
       >
         <SwipeContents
           ref={contentsRef}

@@ -47,17 +47,17 @@ const ProvideModal: React.FC = ({ children }) => {
 
   return (
     <modalContext.Provider value={modal}>
-      {
-        modal.isModalOpen &&
-        <Modal>
-          {
-            modal.modalComponent
-          }
-        </Modal>
-      }
-      {
-        children
-      }
+    {
+      modal.isModalOpen &&
+      <Modal>
+        {
+          modal.modalComponent
+        }
+      </Modal>
+    }
+    {
+      children
+    }
     </modalContext.Provider>
   );
 };

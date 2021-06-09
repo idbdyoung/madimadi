@@ -10,14 +10,22 @@ export type MadiType = {
   source?: string;
   createdAt: string;
   updatedAt: string;
-  likes: UserType.userId[];
+  likes: MadiLikeType[];
 };
 
-export type PostMadiType = {
+export type MadiLikeType = {
+  id: number;
+  madiId: number;
+  userId: number;
+};
+
+export type MadiBodyType = {
+  authorId: number;
   description: string;
   source: string;
 };
 
-export type MadiBodyType = PostMadiType & {
-  authorId: number;
+export type MadiLikeBodyType = {
+  userId: UserType.id;
+  madiId: number.id;
 };

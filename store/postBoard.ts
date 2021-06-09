@@ -8,7 +8,7 @@ import {
   delay,
 } from '../lib/utils/postBoard';
 import { LoadingAction } from './loading';
-import { MadiType } from '../types/madi';
+import { MadiLikeType, MadiType } from '../types/madi';
 import {
   PostBoardState,
   ScrollDataState,
@@ -23,12 +23,15 @@ const FETCH_DATA_ERROR = 'postBoard/FETCH_DATA_ERROR' as const;
 const FETCH_DATA_SUCCESS = 'postBoard/FETCH_DATA_SUCCESS' as const;
 const SET_SCROLL_DATA = 'postBoard/SET_SCROLL_DATA' as const;
 const SET_SWIPE_DATA = 'postBoard/SET_SWIPE_DATA' as const;
+const SET_LIKE = 'postBoard/SET_LIKE' as const;
+const SET_UNLIKE = 'postBoard/SET_UNLIKE' as const;
 
 const setPostItemHeight = (height: number) => ({ type: SET_POST_ITEM_HEIGHT, height });
 const setFetch = () => ({ type: SET_FETCH });
 const setFocusedDataIndex = (index: number) => ({ type: SET_FOCUSED_DATA_INDEX, index });
 const fetchDataSuccess = (index: number, data: MadiType[]) => ({ type: FETCH_DATA_SUCCESS, index, data });
 const fetchDataError = (error: any) => ({ type: FETCH_DATA_ERROR, error });
+const changeBoardMode = () => ({ type: CHANGE_BOARD_MODE });
 const fetchBoardData = (postBoardState: PostBoardState) => async (dispatch: Dispatch) => {
   const {
     swipeData,
@@ -59,11 +62,6 @@ const fetchBoardData = (postBoardState: PostBoardState) => async (dispatch: Disp
     dispatch(LoadingAction.finishGetMadiMadi());
   }
 };
-const changeBoardMode = () => {
-  return {
-    type: CHANGE_BOARD_MODE,
-  };
-};
 const setData = (data: SwipeDataState | ScrollDataState) => {
   if (isSwipeDataStateType(data)) {
     return {
@@ -81,6 +79,20 @@ const setData = (data: SwipeDataState | ScrollDataState) => {
     };
   }
 };
+const setLike = (madiId: number, likeObj: MadiLikeType) => {
+  return {
+    type: SET_LIKE,
+    madiId,
+    likeObj,
+  };
+};
+const setUnLike = (mdaiId: number, likeId: number) => {
+  return {
+    type: SET_UNLIKE,
+    mdaiId,
+    likeId,
+  };
+};
 
 export const PostBoardAction = {
   changeBoardMode,
@@ -90,6 +102,8 @@ export const PostBoardAction = {
   setFocusedDataIndex,
   setPostItemHeight,
   fetchDataSuccess,
+  setLike,
+  setUnLike,
 };
 
 type PostBoardAction =
@@ -99,7 +113,9 @@ type PostBoardAction =
   | ReturnType<typeof setPostItemHeight>
   | ReturnType<typeof setFetch>
   | ReturnType<typeof setData>
-  | ReturnType<typeof setFocusedDataIndex>;
+  | ReturnType<typeof setFocusedDataIndex>
+  | ReturnType<typeof setLike>
+  | ReturnType<typeof setUnLike>;
 
 const initialState: PostBoardState = {
   fetch: true,
@@ -122,6 +138,32 @@ const reducer = (
   action: PostBoardAction
 ) => {
   switch (action.type) {
+    case SET_LIKE:
+      return {
+        ...state,
+        receivedData: state.receivedData.map(data => {
+          if (data.id === action.madiId) {
+            data.likes.push(action.likeObj);
+          }
+
+          return data;
+        }),
+      };
+    case SET_UNLIKE:
+      return {
+        ...state,
+        receivedData: state.receivedData.map(data => {
+          if (data.id === action.mdaiId) {
+            data.likes = data.likes.filter(like => {
+              if (like.id !== action.likeId) {
+                return like;
+              }
+            });
+          }
+
+          return data;
+        }),
+      };
     case CHANGE_BOARD_MODE:
       return {
         ...state,

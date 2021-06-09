@@ -40,17 +40,20 @@ export const handleBoardDataWhenChangeMode = (postBoardState: PostBoardState): (
   const {
     isSwipeMode,
     receivedData,
-    swipeData,
+    focusedIndex,
   } = postBoardState;
 
   if (isSwipeMode) {
     return receivedData;
   }
+  const newCurrentData = receivedData.slice(focusedIndex, focusedIndex + 4);
+  const newWaitingData = receivedData.slice(focusedIndex + 4);
+  const newRecycledData = receivedData.slice(0, focusedIndex);
 
   return {
-    currentData: [...swipeData.currentData],
-    waitingData: [...swipeData.waitingData],
-    recycledData: [...swipeData.recycledData],
+    currentData: newCurrentData,
+    waitingData: newWaitingData,
+    recycledData: newRecycledData,
   };
 };
 

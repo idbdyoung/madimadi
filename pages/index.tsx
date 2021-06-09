@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import { GetServerSideProps, NextPage } from 'next';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { useSelector, wrapper } from '../store';
@@ -10,6 +10,7 @@ import { getMadi } from '../lib/api/madi';
 import PostBoardContainer from '../containers/PostBoardContainer';
 import WritingBox from '../components/PostBoard/WritingBox';
 import Loading from '../components/Loading';
+import PostBoardTitle from '../components/PostBoard/PostBoardTitle';
 
 const Container = styled.div`
   display: flex;
@@ -26,6 +27,13 @@ const Container = styled.div`
     flex-direction: column;
     width: 800px;
     height: 100%;
+    .title-container {
+      width: 100%;
+      height: 120px;
+      margin-bottom: 2px;
+      box-shadow: 0 5px 5px -5px rgba(0,0,0,0.25);
+      background: yellow;
+    }
     .loading-container {
       width: 100%;
       height: 50px;
@@ -35,7 +43,7 @@ const Container = styled.div`
 
 const index: NextPage = () => {
   const dispatch = useDispatch();
-  const isFetching = useSelector(state => state.loading.getMadiMadiFetching);
+  const isFetching = useSelector(state => state.loading.getMadiMadiState);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -49,6 +57,9 @@ const index: NextPage = () => {
       <div className='side-box-wrapper'>
       </div>
       <div className='center-box-wrapper'>
+        <div className='title-container'>
+          <PostBoardTitle/>
+        </div>
         <PostBoardContainer />
         <div className='loading-container'>
           {

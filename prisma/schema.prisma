@@ -13,7 +13,7 @@ model User {
   userName String @unique
   userPicture String
   madimadi Madi[]
-  likes Likes []
+  likes MadiLikes []
   createdAt DateTime @default(now())
 }
 
@@ -25,12 +25,12 @@ model Madi {
   authorId Int
   description String
   source String?
-  likes Likes[]
+  likes MadiLikes[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Likes {
+model MadiLikes {
   id Int @id @default(autoincrement())
   madi Madi @relation(fields: [madiId], references: [id])
   madiId Int

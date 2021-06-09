@@ -26,8 +26,9 @@ const Container = styled.div.attrs<ContainerType>((props) => ({
 const postBoardContainer: React.FC = () => {
   const dispatch = useDispatch();
   const postBoard = useSelector(state => state.postBoard);
-  const pageHeight = postBoard.postItemHeight * 3 + 120;
+  const pageHeight = postBoard.postItemHeight * 3;
   const fetch = postBoard.fetch;
+  const isSwipeMode = postBoard.isSwipeMode;
   const isFirstRun = useRef<boolean>(true);
 
   useEffect(() => {
@@ -35,13 +36,14 @@ const postBoardContainer: React.FC = () => {
       isFirstRun.current = false;
       return;
     }
+
     dispatch(PostBoardAction.fetchBoardData(postBoard));
   }, [fetch]);
 
   return (
     <Container height={pageHeight}>
       {
-        postBoard.isSwipeMode ?
+        isSwipeMode ?
         <SwipeBoard /> :
         <ScrollBoard />
       }

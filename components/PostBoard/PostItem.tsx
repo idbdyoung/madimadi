@@ -1,12 +1,16 @@
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { useSelector } from '../../store';
 import { MadiType } from '../../types/madi';
+import { deleteMadiLike, postMadiLike } from '../../lib/api/madi';
 
-import Heart from '../../public/static/images/heart.svg';
-import CheckedHeart from '../../public/static/images/heartChecked.svg'
-import Comment from '../../public/static/images/comment.svg';
+import LikeIcon from '../LikeIcon';
+import { PostBoardAction } from '../../store/postBoard';
+import { LoadingAction } from '../../store/loading';
 
 interface ContainerType {
   height: number;
@@ -35,7 +39,6 @@ const Contents = styled.div<ContentsType>`
   height: 95%;
   background: white;
   border: 1px solid #C2CFE0;
-  cursor: pointer;
   border-radius: 3px;
   ${(props) => !props.isSwipeMode && `
     :hover {
@@ -100,28 +103,89 @@ interface IProps {
 }
 
 const PostItem: React.FC<IProps> = ({ data, height }) => {
-  const postBoard = useSelector(state => state.postBoard);
-  const user = useSelector(state => state.auth).user;
+  const dispatch = useDispatch();
+  const isSwipeMode = useSelector(state => state.postBoard.isSwipeMode);
+  const isLoading = useSelector(state => state.loading.setMadiLikeState);
+  const user = useSelector(state => state.auth.user);
+  const [isHeartClicked, setHeartClicked] = useState(false);
+  const [currentUserLikeId, setCurrentUserLikeId] = useState<number | null>(null);
+  const [likeCount, setLikeCount] = useState(0);
 
-  const onClickOpenPost = () => {};
+  const onClickOpenPostItem = () => {};
+  const postLike = async (madiId: number) => {
+    if (isSwipeMode) return;
+    if (isLoading) return;
+
+    try {
+      dispatch(LoadingAction.startSetMadiLike());
+      setHeartClicked(true);
+      setLikeCount(likeCount + 1);
+      const result = await postMadiLike({
+        userId: user?.id,
+        madiId,
+      });
+      setCurrentUserLikeId(result.data.id);
+      dispatch(PostBoardAction.setLike(data.id, result.data));
+      dispatch(LoadingAction.finishSetMadiLike());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const deleteLike = async (likeId: number) => {
+    if (isSwipeMode) return;
+    if (isLoading) return;
+
+    try {
+      dispatch(LoadingAction.startSetMadiLike());
+      setHeartClicked(false);
+      setLikeCount(likeCount - 1);
+      await deleteMadiLike(likeId);
+      setCurrentUserLikeId(null);
+      dispatch(currentUserLikeId && PostBoardAction.setUnLike(data.id, currentUserLikeId));
+      dispatch(LoadingAction.finishSetMadiLike());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    let likeId = null;
+
+    if (user) {
+      likeId = data.likes.find(like => like.userId === user.id)?.id ?? null;
+    }
+
+    if (likeId) {
+      setHeartClicked(true);
+    }
+    setCurrentUserLikeId(likeId);
+    setLikeCount(data.likes.length);
+
+    return () => {
+      setCurrentUserLikeId(null);
+      setLikeCount(0);
+    };
+  }, [data]);
 
   return (
     <Container
       height={height}
-      onClick={onClickOpenPost}
+      onClick={onClickOpenPostItem}
     >
-      <Contents isSwipeMode={postBoard.isSwipeMode}>
+      <Contents isSwipeMode={isSwipeMode}>
         <div className='contents-container'>
           <div className='contents-header'>
             <div className='contents-menu'>
-              <div className='menu-icon'>
-                <Image
-                  className='user-avatar'
-                  src={data.author.userPicture}
-                  width={20}
-                  height={20}
-                />
-              </div>
+              <Link href={data.author.id ? `/user/${data.author.userName}`: '/'}>
+                <a className='menu-icon'>
+                  <Image
+                    className='user-avatar'
+                    src={data.author.userPicture}
+                    width={20}
+                    height={20}
+                  />
+                </a>
+              </Link>
               <div className='menu-value'>
                 {
                   data.author.userName
@@ -129,32 +193,21 @@ const PostItem: React.FC<IProps> = ({ data, height }) => {
               </div>
             </div>
             {
-            data.author.id ?
-            <>
-              <div className='contents-menu'>
-                <div className='menu-icon'>
-                  {
-                    user && data.likes.find(data => data.userName === user?.userName) ?
-                    <CheckedHeart /> :
-                    <Heart />
-                  }
-                </div>
-                <div className='menu-value'>
-                  {
-                    data.likes.length
-                  }
-                </div>
+            data.author.id !== 0 &&
+            <div className='contents-menu'>
+              <div className='menu-icon'>
+                <LikeIcon
+                  isClicked={isHeartClicked}
+                  onClickColoredHeart={() => currentUserLikeId && deleteLike(currentUserLikeId)}
+                  onClickUnCOloredHeart={() => postLike(data.id)}
+                />
               </div>
-              <div className='contents-menu'>
-                <div className='menu-icon'>
-                  <Comment />
-                </div>
-                <div className='menu-value'>
-                  코맨트 개수
-                </div>
+              <div className='menu-value'>
+              {
+                likeCount
+              }
               </div>
-            </>
-            : ''
+            </div>
             }
           </div>
           <div className='contents-text'>

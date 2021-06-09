@@ -1,4 +1,5 @@
 export type LoadingType = {
-  getMadiMadiFetching: boolean;
-  postMadimadiFetching: boolean;
+  getMadiMadiState: boolean;
+  postMadimadiState: boolean;
+  setMadiLikeState: boolean;
 }

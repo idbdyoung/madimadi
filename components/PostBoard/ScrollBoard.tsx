@@ -30,7 +30,7 @@ const ScrollBoard: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const postItemRefs = useRef<any[]>([]);
 
-  const onClickChangeSwipeMode = () => {
+  const onClickChangeToSwipeMode = async () => {
     const handledBoardData = handleBoardDataWhenChangeMode(postBoard);
     dispatch(PostBoardAction.setData(handledBoardData));
     dispatch(PostBoardAction.changeBoardMode());
@@ -52,7 +52,7 @@ const ScrollBoard: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(onIntersectPostItem, { threshold: 0.5 });
+    const observer = new IntersectionObserver(onIntersectPostItem, { threshold: 0.3 });
 
     for (let i = 0; i < postItemRefs.current.length; i++) {
       observer.observe(postItemRefs.current[i]);
@@ -63,7 +63,7 @@ const ScrollBoard: React.FC = () => {
 
   return (
     <>
-      <ScrollBoardDim onClick={onClickChangeSwipeMode}/>
+      <ScrollBoardDim onClick={onClickChangeToSwipeMode}/>
       <Container ref={containerRef}>
         {
           scrollData.map((data, i) => {

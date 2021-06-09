@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { useSelector } from '../../store';
 import { LoadingAction } from '../../store/loading';
-import { PostMadiType } from '../../types/madi';
 import { postMadi } from '../../lib/api/madi';
 
 import BlueButton from '../BlueButton';
@@ -123,8 +122,8 @@ const Container = styled.div`
 const WritingBox: React.FC = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
-  const isPosting = useSelector(state => state.loading.postMadimadiFetching);
-  const [madi, setMadi] = useState<PostMadiType>({
+  const isLoading = useSelector(state => state.loading.postMadimadiState);
+  const [madi, setMadi] = useState({
     description: '',
     source: '',
   });
@@ -148,7 +147,7 @@ const WritingBox: React.FC = () => {
       });
       dispatch(LoadingAction.finishPostMadiMadi());
 
-      if (result.status) {
+      if (result.status === 201) {
         alert('등록되었습니다.');
         setMadi({
           description: '',
@@ -178,7 +177,7 @@ const WritingBox: React.FC = () => {
       </div>
       <form className='writing-box-formbody'>
         {
-          isPosting ?
+          isLoading ?
           <Loading /> :
           <>
             <div className='writing-box-body-contents'>

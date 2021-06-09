@@ -1,4 +1,3 @@
-
 import { NextApiRequest } from 'next';
 import { format } from 'date-fns';
 
@@ -31,6 +30,6 @@ const post = async (req: NextApiRequest, res: NextApiResponseWithAccessToken) =>
       return res.send(e);
     }
   }
-}
+};
 
 export default verify(post);
