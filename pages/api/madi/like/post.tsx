@@ -5,13 +5,11 @@ import verify, { NextApiResponseWithAccessToken } from '../../../../lib/utils/ve
 import prisma from '../../../../lib/db';
 import { MadiLikeBodyType } from '../../../../types/madi';
 
-const prismaClient = prisma.getInstance();
-
 const like = async (req: NextApiRequest, res: NextApiResponseWithAccessToken) => {
   if (req.method === 'POST') {
     try {
       const { userId, madiId }: MadiLikeBodyType = req.body;
-      const result = await prismaClient.madiLikes.create({
+      const result = await prisma.madiLikes.create({
         data: {
           madiId,
           userId,

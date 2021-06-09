@@ -5,15 +5,13 @@ import verify, { NextApiResponseWithAccessToken } from '../../../lib/utils/verif
 import { MadiBodyType } from '../../../types/madi';
 import prisma from '../../../lib/db';
 
-const prismaClient = prisma.getInstance();
-
 const post = async (req: NextApiRequest, res: NextApiResponseWithAccessToken) => {
   if (req.method === 'POST') {
     try {
       const { authorId, description, source }: MadiBodyType = req.body;
       const dateCode = format(new Date(), 'yyyyMMdd');
-      const createdMadiMadi = await prismaClient.madi.findMany({ where: { dateCode }});
-      await prismaClient.madi.create({
+      const createdMadiMadi = await prisma.madi.findMany({ where: { dateCode }});
+      await prisma.madi.create({
         data: {
           dateCode,
           dateIndex: createdMadiMadi.length,

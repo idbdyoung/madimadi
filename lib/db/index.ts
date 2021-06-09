@@ -1,20 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 
-const prisma = (function () {
-  let instance: any = null;
+interface CustomNodeJsGlobal extends NodeJS.Global {
+  prisma: PrismaClient;
+}
 
-  const init = () => (instance = new PrismaClient());
+declare const global: CustomNodeJsGlobal;
 
-  return {
-    getInstance: () => {
-      if (!instance) {
-        init();
-      }
+const prisma = global.prisma || new PrismaClient();
 
-      return instance;
-    },
-  };
-})();
-
+if (process.env.NODE_ENV === 'development') global.prisma = prisma;
 
 export default prisma;
