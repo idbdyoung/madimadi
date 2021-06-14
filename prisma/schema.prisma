@@ -13,7 +13,8 @@ model User {
   userName String @unique
   userPicture String
   madimadi Madi[]
-  likes MadiLikes []
+  videos Video[]
+  likes MadiLike[]
   createdAt DateTime @default(now())
 }
 
@@ -25,15 +26,30 @@ model Madi {
   authorId Int
   description String
   source String?
-  likes MadiLikes[]
+  likes MadiLike[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model MadiLikes {
+model MadiLike {
   id Int @id @default(autoincrement())
   madi Madi @relation(fields: [madiId], references: [id])
   madiId Int
   user User @relation(fields: [userId], references: [id])
   userId Int
+}
+
+model Video {
+  id Int @id @default(autoincrement())
+  author User @relation(fields: [authorId], references: [id])
+  authorId Int
+  title String
+  description String
+  videoUrl String
+  videoTitle String
+  videoThumbnail String
+  videoAuthor String
+  videoHtmlInsert String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

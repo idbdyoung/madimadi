@@ -33,9 +33,9 @@ const Container = styled.div`
 const PostBoardTitle: React.FC = () => {
   return (
     <Container>
-      <div className='title'>
+      <h1 className='title'>
         오늘의 한마디
-      </div>
+      </h1>
       <div className='date-set'>
         <TimeBox />
       </div>

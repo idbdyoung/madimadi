@@ -32,7 +32,6 @@ const Container = styled.div`
       height: 120px;
       margin-bottom: 2px;
       box-shadow: 0 5px 5px -5px rgba(0,0,0,0.25);
-      background: yellow;
     }
     .loading-container {
       width: 100%;
@@ -50,7 +49,7 @@ const index: NextPage = () => {
     if (containerRef.current) {
       dispatch(PostBoardAction.setPostItemHeight((containerRef.current.offsetHeight - 170) / 3));
     }
-  }, [containerRef]);
+  }, [containerRef.current]);
 
   return (
     <Container ref={containerRef}>

@@ -138,6 +138,7 @@ const WritingBox: React.FC = () => {
   };
   const onSubmitMadi = async () => {
     if (!user) return alert('로그인이 필요한 서비스 입니다.');
+    if (!madi.description) return alert('오늘의 한 마디를 입력해 주세요.');
 
     try {
       dispatch(LoadingAction.startPostMadiMadi());

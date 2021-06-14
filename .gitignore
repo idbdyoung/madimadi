@@ -4,3 +4,4 @@ node_modules
 .env.local
 0draw.io
 .DS_store
+mockData

@@ -2,13 +2,14 @@ import styled from 'styled-components';
 
 import { useSelector } from '../store';
 
-import LoginContainer from '../containers/LoginContainer';
 import { useModal } from '../components/Modal/ProvideModal';
 import BlueButton from '../components/BlueButton';
 import UserBox from '../components/Header/UserBox';
+import LoginContainer from './LoginContainer';
 
 const Container = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;

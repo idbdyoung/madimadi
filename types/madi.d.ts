@@ -19,13 +19,13 @@ export type MadiLikeType = {
   userId: number;
 };
 
-export type MadiBodyType = {
+export type MadiPostBodyType = {
   authorId: number;
   description: string;
   source: string;
 };
 
-export type MadiLikeBodyType = {
+export type MadiLikePostBodyType = {
   userId: UserType.id;
   madiId: number.id;
 };

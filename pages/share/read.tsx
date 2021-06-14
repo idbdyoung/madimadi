@@ -1,8 +1,10 @@
 import { NextPage } from 'next';
 
+import Preparing from '../../components/Preparing';
+
 const read: NextPage = () => {
   return (
-    <div>read</div>
+    <Preparing />
   );
 };
 
