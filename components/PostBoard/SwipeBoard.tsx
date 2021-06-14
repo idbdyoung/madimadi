@@ -75,8 +75,7 @@ const SwipeBoard: React.FC = () => {
     if (Math.abs(contentsTop) > postBoard.postItemHeight) {
       return resetSwipeBoard();
     }
-    const newContentsY = contentsTop - 3;
-    setContentsTop(newContentsY);
+    setContentsTop(contentsTop - 3);
     setSwipe1px(!swipe1px);
   };
   const resetSwipeBoard = () => {
